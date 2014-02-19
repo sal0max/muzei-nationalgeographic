@@ -1,0 +1,18 @@
+# Gradle
+.gradle
+build/
+gradle/
+gradlew
+gradlew.bat
+
+# Project
+.idea/
+*.iml
+local.properties
+
+## Keystore for signing
+signing.properties
+*.keystore
+
+# Misc
+.DS_Store

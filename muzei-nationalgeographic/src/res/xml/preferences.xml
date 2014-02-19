@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright 2014 Maximilian Salomon.
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see http://www.gnu.org/licenses/.
+  -->
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+   <PreferenceCategory android:title="@string/prefs_header_general">
+
+      <SwitchPreference
+         android:key="@string/pref_cyclemode_key"
+         android:title="@string/pref_cyclemode_title"
+         android:summaryOn="@string/pref_cyclemode_summary__true"
+         android:summaryOff="@string/pref_cyclemode_summary__false"
+         android:defaultValue="true"
+         android:persistent="true" />
+
+      <ListPreference
+         android:key="@string/pref_intervalpicker_key"
+         android:title="@string/pref_intervalpicker_title"
+         android:summary="%s"
+         android:entries="@array/list_intervalpicker_entries"
+         android:entryValues="@array/list_intervalpicker_values"
+         android:defaultValue="@string/pref_intervalpicker_defaultvalue"
+         android:dependency="@string/pref_cyclemode_key"
+         android:persistent="true" />
+
+      <SwitchPreference
+         android:key="@string/pref_wifiswitch_key"
+         android:title="@string/pref_wifiswitch_title"
+         android:summary="@string/pref_wifiswitch_summary"
+         android:defaultValue="false"
+         android:persistent="true" />
+   </PreferenceCategory>
+
+   <PreferenceCategory
+      android:persistent="false"
+      android:title="@string/prefs_header_about">
+      <Preference
+         android:key="@string/pref_about_key"
+         android:background="@null"
+         android:enabled="false"
+         android:selectable="false"
+         android:summary="@string/pref_about_summary"
+         android:title="@string/app_name" />
+   </PreferenceCategory>
+
+</PreferenceScreen>

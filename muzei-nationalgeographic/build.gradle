@@ -1,0 +1,105 @@
+/*
+ * Copyright 2014 Maximilian Salomon.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see http://www.gnu.org/licenses/.
+ */
+
+buildscript {
+   repositories {
+      mavenCentral()
+   }
+   dependencies {
+      classpath 'com.android.tools.build:gradle:0.8.+'
+   }
+}
+
+apply plugin: 'android'
+
+repositories {
+   mavenCentral()
+}
+
+dependencies {
+   compile 'com.google.android.apps.muzei:muzei-api:+'
+   compile 'com.squareup.retrofit:retrofit:+'
+   compile('com.mobprofs:retrofit-simplexmlconverter:+') {
+      exclude module: 'stax'
+      exclude module: 'stax-api'
+      exclude module: 'xpp3'
+   }
+   compile 'joda-time:joda-time:2.+'
+}
+
+android {
+   compileSdkVersion 19
+   buildToolsVersion '19.0.1'
+
+   defaultConfig {
+      minSdkVersion 17
+      targetSdkVersion 19
+      versionCode 1
+      versionName "1.0"
+   }
+
+   sourceSets {
+      main {
+         assets.srcDirs = ['src/assets']
+         java.srcDirs = ['src/java']
+         res.srcDirs = ['src/res']
+         manifest.srcFile 'src/AndroidManifest.xml'
+      }
+   }
+
+   signingConfigs {
+      release {
+         /* get the keystore data for signing */
+         def Properties props = new Properties()
+         def propFile = file('../../_keystore/signing.properties')
+
+         if (propFile.canRead()) {
+            props.load(new FileInputStream(propFile))
+
+            if (props != null
+                  && props.containsKey('STORE_FILE')
+                  && props.containsKey('STORE_PASSWORD')
+                  && props.containsKey('KEY_ALIAS')
+                  && props.containsKey('KEY_PASSWORD')) {
+               android.signingConfigs.release.storeFile = file(props['STORE_FILE'])
+               android.signingConfigs.release.storePassword = props['STORE_PASSWORD']
+               android.signingConfigs.release.keyAlias = props['KEY_ALIAS']
+               android.signingConfigs.release.keyPassword = props['KEY_PASSWORD']
+            } else {
+               android.buildTypes.release.signingConfig = null
+               println 'props == null'
+            }
+         } else {
+            android.buildTypes.release.signingConfig = null
+            println 'propFile can\'t be read.'
+         }
+      }
+   }
+
+   buildTypes {
+      release {
+         //runProguard true
+         //proguardFiles getDefaultProguardFile('proguard-android.txt'), file('proguard.txt')
+         signingConfig signingConfigs.release
+         debuggable false
+         zipAlign true
+         jniDebugBuild false
+      }
+   }
+}
+
+

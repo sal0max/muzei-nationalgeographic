@@ -43,14 +43,14 @@
    <string name="pref_wifiswitch_summary">Updating on Wi-Fi helps to reduce mobile data usage.</string>
 
    <string name="pref_about_key">pref_about</string>
-    <string name="pref_about_summary">
+   <string name="pref_about_summary">
         Version %1$s
         \n© %2$d Maximilian Salomon
    </string>
 
    <!-- share artwork -->
    <string name="share_artwork_message">My current Android wallpaper is \'%1$s\' - The photo of the day of %2$s on nationalgeographic.com. #Muzei #NationalGeographic\n\n%3$s</string>
-   <string name="share_artwork_title">Share artwork</string>
-   <string name="share_artwork_nothing_to_share">No artwork to share.</string>
+   <string name="share_artwork_title">Share photo</string>
+   <string name="share_artwork_nothing_to_share">No photo to share.</string>
 
 </resources>

@@ -182,6 +182,11 @@ public class NationalGeographicArtSource extends RemoteMuzeiArtSource {
          }
       } else {
          photo = photos.get(0);
+         /* try again in 30 mins if no new photo is online, yet */
+         if (TextUtils.equals(photo.pubDate, currentToken)) {
+            scheduleUpdate(System.currentTimeMillis() + (30 * 60 * 1000));
+            return;
+         }
       }
 
       String dateString = "";

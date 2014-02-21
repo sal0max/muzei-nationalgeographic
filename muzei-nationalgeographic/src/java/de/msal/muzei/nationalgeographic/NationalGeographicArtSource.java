@@ -126,7 +126,6 @@ public class NationalGeographicArtSource extends RemoteMuzeiArtSource {
       }
       if (intent.getAction().equals(ACTION_NEW_SETTINGS)
             && intent.getBooleanExtra(EXTRA_SHOULD_REFRESH, true)) {
-         Log.e(TAG, "returned from settings - update now!");
          scheduleUpdate(System.currentTimeMillis() + 1250); // returned from prefs - update now!
       }
       super.onHandleIntent(intent);

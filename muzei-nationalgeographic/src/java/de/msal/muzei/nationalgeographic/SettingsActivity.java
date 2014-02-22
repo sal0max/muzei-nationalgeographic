@@ -25,6 +25,7 @@ import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.view.MenuItem;
+import android.view.View;
 
 import java.util.Calendar;
 
@@ -72,6 +73,11 @@ public class SettingsActivity extends Activity {
          }
       }
 
+      @Override
+      public void onViewCreated(View view, Bundle savedInstanceState) {
+         super.onViewCreated(view, savedInstanceState);
+         view.setFitsSystemWindows(true);
+      }
    }
 
    @Override

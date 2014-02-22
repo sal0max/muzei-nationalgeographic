@@ -24,6 +24,8 @@
       <item name="android:actionBarStyle">@style/Settings.ActionBar</item>
       <item name="android:windowContentOverlay">@null</item>
       <item name="android:textAppearanceMedium">@style/TextAppearance.Muzei.Medium</item>
+      <item name="android:windowTranslucentNavigation">true</item>
+      <item name="android:windowTranslucentStatus">true</item>
    </style>
 
    <style name="Settings.ActionBar" parent="android:Widget.Holo.ActionBar">

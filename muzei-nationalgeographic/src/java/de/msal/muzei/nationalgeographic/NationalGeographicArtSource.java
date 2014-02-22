@@ -55,6 +55,7 @@ public class NationalGeographicArtSource extends RemoteMuzeiArtSource {
    private static final String SOURCE_NAME = "NationalGeographicSource";
 
    private static final int USER_COMMAND_ID_SHARE = 1;
+   private static final int USER_COMMAND_ID_PHOTO_DESCRIPTION = 2;
    public static final String ACTION_NEW_SETTINGS
          = "de.msal.muzei.nationalgeographic.action.NEW_SETTINGS";
    public static final String EXTRA_SHOULD_REFRESH
@@ -81,8 +82,10 @@ public class NationalGeographicArtSource extends RemoteMuzeiArtSource {
       if (isRandom) {
          userCommands.add(new UserCommand(BUILTIN_COMMAND_ID_NEXT_ARTWORK));
       }
-      userCommands
-            .add(new UserCommand(USER_COMMAND_ID_SHARE, getString(R.string.share_artwork_title)));
+      userCommands.add(new UserCommand(USER_COMMAND_ID_SHARE,
+            getString(R.string.share_artwork_title)));
+      userCommands.add(new UserCommand(USER_COMMAND_ID_PHOTO_DESCRIPTION,
+            getString(R.string.photo_desc_open)));
       setUserCommands(userCommands);
    }
 
@@ -90,6 +93,28 @@ public class NationalGeographicArtSource extends RemoteMuzeiArtSource {
    protected void onCustomCommand(int id) {
       super.onCustomCommand(id);
       switch (id) {
+         case USER_COMMAND_ID_PHOTO_DESCRIPTION:
+            if (getCurrentArtwork().getToken().length() < 32) {
+               new Handler(Looper.getMainLooper()).post(new Runnable() {
+                  @Override
+                  public void run() {
+                     Toast.makeText(getApplicationContext(),
+                           R.string.photo_desc_nothing_to_show,
+                           Toast.LENGTH_SHORT).show();
+                  }
+               });
+               scheduleUpdate(System.currentTimeMillis() + 500);
+            } else {
+               Intent intent = new Intent(this, PhotoDescriptionActivity.class);
+               intent.putExtra(PhotoDescriptionActivity.EXTRA_TITLE,
+                     getCurrentArtwork().getTitle());
+               String desc = getCurrentArtwork().getToken()
+                     .substring(32, getCurrentArtwork().getToken().length());
+               intent.putExtra(PhotoDescriptionActivity.EXTRA_DESC, desc);
+               intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+               startActivity(intent);
+            }
+            break;
          case USER_COMMAND_ID_SHARE:
             Artwork currentArtwork = getCurrentArtwork();
 
@@ -126,7 +151,7 @@ public class NationalGeographicArtSource extends RemoteMuzeiArtSource {
       }
       if (intent.getAction().equals(ACTION_NEW_SETTINGS)
             && intent.getBooleanExtra(EXTRA_SHOULD_REFRESH, true)) {
-         scheduleUpdate(System.currentTimeMillis() + 1250); // returned from prefs - update now!
+         scheduleUpdate(System.currentTimeMillis() + 500); // returned from prefs - update now!
       }
       super.onHandleIntent(intent);
    }
@@ -174,15 +199,16 @@ public class NationalGeographicArtSource extends RemoteMuzeiArtSource {
          String token;
          while (true) {
             photo = photos.get(random.nextInt(photos.size()));
-            token = photo.pubDate;
+            token = photo.pubDate + "|" + photo.description;
             if (photos.size() <= 1 || !TextUtils.equals(token, currentToken)) {
                break;
             }
          }
       } else {
          photo = photos.get(0);
-         /* try again in 30 mins if no new photo is online, yet */
-         if (TextUtils.equals(photo.pubDate, currentToken)) {
+         String token = photo.pubDate + "|" + photo.description;
+           /* try again in 30 mins if no new photo is online, yet */
+         if (TextUtils.equals(token, currentToken)) {
             scheduleUpdate(System.currentTimeMillis() + (30 * 60 * 1000));
             return;
          }
@@ -206,7 +232,7 @@ public class NationalGeographicArtSource extends RemoteMuzeiArtSource {
             .title(photo.title)
             .byline(dateString)
             .imageUri(Uri.parse(photo.enclosure.url.replace("360x270.", "0x0.")))
-            .token(photo.pubDate)
+            .token(photo.pubDate + "|" + photo.description)
             .viewIntent(new Intent(Intent.ACTION_VIEW, Uri.parse(photo.origLink)))
             .build());
 

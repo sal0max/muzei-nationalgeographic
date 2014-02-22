@@ -61,6 +61,9 @@ public interface NationalGeographicService {
       @Element
       String title;
 
+      @Element
+      String description;
+
       /**
        * pubDate can be used as unique ID
        */

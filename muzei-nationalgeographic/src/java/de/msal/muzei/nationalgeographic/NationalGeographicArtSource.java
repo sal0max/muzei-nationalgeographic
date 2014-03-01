@@ -48,6 +48,7 @@ import java.util.Random;
 
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class NationalGeographicArtSource extends RemoteMuzeiArtSource {
 
@@ -170,7 +171,11 @@ public class NationalGeographicArtSource extends RemoteMuzeiArtSource {
             .setErrorHandler(new retrofit.ErrorHandler() {
                @Override
                public Throwable handleError(RetrofitError retrofitError) {
-                  int statusCode = retrofitError.getResponse().getStatus();
+                  Response response = retrofitError.getResponse();
+                  if(response == null) {
+                     return new RetryException();
+                  }
+                  int statusCode = response.getStatus();
                   if (retrofitError.isNetworkError() || (500 <= statusCode && statusCode < 600)) {
                      return new RetryException();
                   }

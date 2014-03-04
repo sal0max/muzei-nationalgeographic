@@ -194,8 +194,7 @@ public class NationalGeographicArtSource extends RemoteMuzeiArtSource {
 
       if (photos.size() == 0) {
          Log.e(TAG, "No feed returned from API.");
-         scheduleNextUpdate();
-         return;
+         throw new RetryException();
       }
 
       NationalGeographicService.Photo photo;

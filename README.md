@@ -11,6 +11,7 @@ This is a plugin for the live wallpaper app _Muzei_ by Roman Nurik. It needs _Mu
 * Set your **custom refresh interval**.
 * To reduce mobile data usage you can chose to only **update on Wi-Fi**.
 * **Share** your current photo with the world.
+* Read the **entire photo description** of the current photo within the app.
 
 ## Screenshots
 

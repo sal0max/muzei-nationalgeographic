@@ -11,6 +11,7 @@ gradlew.bat
 local.properties
 
 ## Keystore for signing
+keystore/
 signing.properties
 *.keystore
 

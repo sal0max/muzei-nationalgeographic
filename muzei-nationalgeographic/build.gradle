@@ -20,7 +20,7 @@ buildscript {
       mavenCentral()
    }
    dependencies {
-      classpath 'com.android.tools.build:gradle:0.8.+'
+      classpath 'com.android.tools.build:gradle:0.9.+'
    }
 }
 
@@ -43,7 +43,7 @@ dependencies {
 
 android {
    compileSdkVersion 19
-   buildToolsVersion '19.0.1'
+   buildToolsVersion '19.0.3'
 
    defaultConfig {
       minSdkVersion 17
@@ -65,7 +65,7 @@ android {
       release {
          /* get the keystore data for signing */
          def Properties props = new Properties()
-         def propFile = file('../../_keystore/signing.properties')
+         def propFile = file('../keystore/signing.properties')
 
          if (propFile.canRead()) {
             props.load(new FileInputStream(propFile))

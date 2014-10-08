@@ -26,7 +26,7 @@
 
    <!-- preferences -->
    <string name="prefs_title">Поставке</string>
-   <string name="prefs_header_general">Опше</string>
+   <string name="prefs_header_general">Опште</string>
    <string name="prefs_header_about">О програму</string>
 
    <string name="pref_cyclemode_key">pref_cyclemode</string>
@@ -49,7 +49,7 @@
    </string>
 
    <!-- share artwork -->
-   <string name="share_artwork_message">Мој тапет за Андроид је тренутно „%1$s“ - Фотографија дана %2$s са nationalgeographic.com. #Muzei #NationalGeographic\n\n%3$s</string>
+   <string name="share_artwork_message">Тапет на мом Андроиду је тренутно „%1$s“ - фотографија дана %2$s са nationalgeographic.com. #Muzei #NationalGeographic\n\n%3$s</string>
    <string name="share_artwork_title">Подели ову фотографију</string>
    <string name="share_artwork_nothing_to_share">Нема ништа за дељење.</string>
 

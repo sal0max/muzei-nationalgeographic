@@ -28,14 +28,4 @@
       <item>Свака 24 сата</item>
       <item>Свака 3 дана</item>
    </string-array>
-   <string-array name="list_intervalpicker_values">
-      <item>2628000</item> <!-- ~5 years -->
-      <item>15</item>
-      <item>30</item>
-      <item>60</item>
-      <item>180</item>
-      <item>360</item>
-      <item>1440</item>
-      <item>4320</item>
-   </string-array>
 </resources>

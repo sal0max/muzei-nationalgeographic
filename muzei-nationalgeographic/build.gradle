@@ -20,34 +20,34 @@ buildscript {
       mavenCentral()
    }
    dependencies {
-      classpath 'com.android.tools.build:gradle:0.9.+'
+      classpath 'com.android.tools.build:gradle:0.13.2'
    }
 }
 
-apply plugin: 'android'
+apply plugin: 'com.android.application'
 
 repositories {
    mavenCentral()
 }
 
 dependencies {
-   compile 'com.google.android.apps.muzei:muzei-api:+'
-   compile 'com.squareup.retrofit:retrofit:+'
+   compile 'com.google.android.apps.muzei:muzei-api:1.0'
+   compile 'com.squareup.retrofit:retrofit:1.7.0'
    compile('com.mobprofs:retrofit-simplexmlconverter:+') {
       exclude module: 'stax'
       exclude module: 'stax-api'
       exclude module: 'xpp3'
    }
-   compile 'joda-time:joda-time:2.+'
+   compile 'joda-time:joda-time:2.5'
 }
 
 android {
-   compileSdkVersion 19
-   buildToolsVersion '19.0.3'
+   compileSdkVersion 20
+   buildToolsVersion '19.1.0'
 
    defaultConfig {
       minSdkVersion 17
-      targetSdkVersion 19
+      targetSdkVersion 20
       versionCode 4
       versionName "1.1.1"
    }

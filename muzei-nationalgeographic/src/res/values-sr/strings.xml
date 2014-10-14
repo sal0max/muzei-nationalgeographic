@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright 2014 Maximilian Salomon.
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see http://www.gnu.org/licenses/.
+  -->
+
+<resources>
+
+   <!-- misc -->
+   <string name="app_name">Национална географија за Музеј</string>
+   <string name="source_name">Фотографија дана Националне географије</string>
+   <string name="source_description">Дневна фотографија Националног географског друштва</string>
+
+   <!-- preferences -->
+   <string name="prefs_title">Поставке</string>
+   <string name="prefs_header_general">Опште</string>
+   <string name="prefs_header_about">О програму</string>
+
+   <string name="pref_cyclemode_key">pref_cyclemode</string>
+   <string name="pref_cyclemode_title">Насумична фотографија</string>
+   <string name="pref_cyclemode_summary__true">Приказ насумичне фотографије дана за прилагодиви временски интервал.</string>
+   <string name="pref_cyclemode_summary__false">Приказ увек најскорије фотографије дана.</string>
+
+   <string name="pref_intervalpicker_key">pref_intervalpicker</string>
+   <string name="pref_intervalpicker_title">Интервал ажурирања</string>
+   <string name="pref_intervalpicker_defaultvalue">60</string>
+
+   <string name="pref_wifiswitch_key">pref_wifiswitch</string>
+   <string name="pref_wifiswitch_title">Само на бежичној</string>
+   <string name="pref_wifiswitch_summary">Ажурирање само на бежичној мрежи смањује утрошак мобилних података.</string>
+
+   <string name="pref_about_key">pref_about</string>
+   <string name="pref_about_summary">
+        Издање %1$s
+        \n© %2$d Maximilian Salomon
+   </string>
+
+   <!-- share artwork -->
+   <string name="share_artwork_message">Тапет на мом Андроиду је тренутно „%1$s“ - фотографија дана %2$s са nationalgeographic.com. #Muzei #NationalGeographic\n\n%3$s</string>
+   <string name="share_artwork_title">Подели ову фотографију</string>
+   <string name="share_artwork_nothing_to_share">Нема ништа за дељење.</string>
+
+   <!-- photo description -->
+   <string name="photo_desc_title"><![CDATA[О <b>%1$s</b>]]></string>
+   <string name="photo_desc_open">О овој фотографији</string>
+   <string name="photo_desc_nothing_to_show">Нема описа фотографије. - Покушајте поново.</string>
+
+</resources>

@@ -56,7 +56,7 @@
          android:theme="@style/Theme.Muzei" />
 
       <activity
-         android:name="de.msal.muzei.nationalgeographic.PhotoDescriptionActivity"
+         android:name=".PhotoDescriptionActivity"
          android:icon="@drawable/ic_preferences"
          android:theme="@style/Theme.Muzei"
          android:excludeFromRecents="true" />

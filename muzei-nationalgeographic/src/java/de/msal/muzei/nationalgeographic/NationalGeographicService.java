@@ -29,15 +29,14 @@ import retrofit.http.GET;
 
 public interface NationalGeographicService {
 
-   @GET("/ng/photography/photo-of-the-day/")
-   Rss getResponse();
+   @GET("/pipes/pipe.run?_id=71ba0a0e1d5de8e64fc2d3d560a93aa6&_render=rss")
+   Rss getFeed();
 
    @Root(strict = false, name = "rss")
    @Namespace(reference = "http://rssnamespace.org/feedburner/ext/1.0", prefix = "feedburner")
    static class Rss {
 
-      @Element(name = "channel")
-      Feed feed;
+      @Element(name = "channel") Feed feed;
 
       List<Photo> getPhotos() {
          return feed.getPhotos();
@@ -47,8 +46,7 @@ public interface NationalGeographicService {
    @Root(strict = false, name = "channel")
    static class Feed {
 
-      @ElementList(name = "item", inline = true)
-      List<Photo> photos;
+      @ElementList(name = "item", inline = true) List<Photo> photos;
 
       List<Photo> getPhotos() {
          return photos;
@@ -58,31 +56,24 @@ public interface NationalGeographicService {
    @Root(strict = false, name = "item")
    static class Photo {
 
-      @Element
-      String title;
+      @Element String title;
 
-      @Element
-      String description;
+      @Element String link;
+
+      @Element String description;
 
       /**
        * pubDate can be used as unique ID
        */
-      @Element
-      String pubDate;
+      @Element String pubDate;
 
-      @Element
-      Enclusure enclosure;
+      @Element Enclusure enclosure;
 
       @Root(strict = false)
       static class Enclusure {
 
-         @Attribute
-         String url;
+         @Attribute(name = "src") String url;
       }
-
-      @Element
-      @Namespace(reference = "http://rssnamespace.org/feedburner/ext/1.0")
-      String origLink;
    }
 
 }

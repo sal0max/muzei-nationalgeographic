@@ -166,7 +166,7 @@ public class NationalGeographicArtSource extends RemoteMuzeiArtSource {
       String currentToken = (getCurrentArtwork() != null) ? getCurrentArtwork().getToken() : null;
 
       RestAdapter restAdapter = new RestAdapter.Builder()
-            .setEndpoint("http://feeds.nationalgeographic.com")
+            .setEndpoint("https://pipes.yahoo.com")
             .setConverter(new SimpleXmlConverter())
             .setErrorHandler(new retrofit.ErrorHandler() {
                @Override
@@ -176,7 +176,8 @@ public class NationalGeographicArtSource extends RemoteMuzeiArtSource {
                      return new RetryException();
                   }
                   int statusCode = response.getStatus();
-                  if (retrofitError.isNetworkError() || (500 <= statusCode && statusCode < 600)) {
+                  if (retrofitError.getKind() == RetrofitError.Kind.NETWORK
+                        || (500 <= statusCode && statusCode < 600)) {
                      return new RetryException();
                   }
                   scheduleNextUpdate();
@@ -186,7 +187,7 @@ public class NationalGeographicArtSource extends RemoteMuzeiArtSource {
             .build();
 
       NationalGeographicService service = restAdapter.create(NationalGeographicService.class);
-      List<NationalGeographicService.Photo> photos = service.getResponse().getPhotos();
+      List<NationalGeographicService.Photo> photos = service.getFeed().getPhotos();
 
       if (photos == null) {
          throw new RetryException();
@@ -234,9 +235,9 @@ public class NationalGeographicArtSource extends RemoteMuzeiArtSource {
       publishArtwork(new Artwork.Builder()
             .title(photo.title)
             .byline(dateString)
-            .imageUri(Uri.parse(photo.enclosure.url.replace("360x270.", "0x0.")))
+            .imageUri(Uri.parse(photo.enclosure.url))
             .token(photo.pubDate + "|" + photo.description)
-            .viewIntent(new Intent(Intent.ACTION_VIEW, Uri.parse(photo.origLink)))
+            .viewIntent(new Intent(Intent.ACTION_VIEW, Uri.parse(photo.link)))
             .build());
 
       scheduleNextUpdate();

@@ -21,8 +21,6 @@ import com.google.android.apps.muzei.api.Artwork;
 import com.google.android.apps.muzei.api.RemoteMuzeiArtSource;
 import com.google.android.apps.muzei.api.UserCommand;
 
-import com.mobprofs.retrofit.converters.SimpleXmlConverter;
-
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
@@ -46,13 +44,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
-import retrofit.RestAdapter;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
-
 public class NationalGeographicArtSource extends RemoteMuzeiArtSource {
 
-   private static final String TAG = "NationalGeographicforMuzei";
+   private static final String TAG = "NGforMuzei";
    private static final String SOURCE_NAME = "NationalGeographicSource";
 
    private static final int USER_COMMAND_ID_SHARE = 1;
@@ -79,7 +73,7 @@ public class NationalGeographicArtSource extends RemoteMuzeiArtSource {
       isRandom = prefs.getBoolean(getString(R.string.pref_cyclemode_key), true);
       isRefreshOnWifiOnly = prefs.getBoolean(getString(R.string.pref_wifiswitch_key), false);
 
-      List<UserCommand> userCommands = new ArrayList<UserCommand>(2);
+      List<UserCommand> userCommands = new ArrayList<>(2);
       if (isRandom) {
          userCommands.add(new UserCommand(BUILTIN_COMMAND_ID_NEXT_ARTWORK));
       }
@@ -165,29 +159,8 @@ public class NationalGeographicArtSource extends RemoteMuzeiArtSource {
 
       String currentToken = (getCurrentArtwork() != null) ? getCurrentArtwork().getToken() : null;
 
-      RestAdapter restAdapter = new RestAdapter.Builder()
-            .setEndpoint("https://pipes.yahoo.com")
-            .setConverter(new SimpleXmlConverter())
-            .setErrorHandler(new retrofit.ErrorHandler() {
-               @Override
-               public Throwable handleError(RetrofitError retrofitError) {
-                  Response response = retrofitError.getResponse();
-                  if(response == null) {
-                     return new RetryException();
-                  }
-                  int statusCode = response.getStatus();
-                  if (retrofitError.getKind() == RetrofitError.Kind.NETWORK
-                        || (500 <= statusCode && statusCode < 600)) {
-                     return new RetryException();
-                  }
-                  scheduleNextUpdate();
-                  return retrofitError;
-               }
-            })
-            .build();
-
-      NationalGeographicService service = restAdapter.create(NationalGeographicService.class);
-      List<NationalGeographicService.Photo> photos = service.getFeed().getPhotos();
+      NationalGeographicService.Service adapter = NationalGeographicService.getAdapter();
+      List<NationalGeographicService.Photo> photos = adapter.getPhotoOfTheDayFeed().getPhotos();
 
       if (photos == null) {
          throw new RetryException();
@@ -235,7 +208,8 @@ public class NationalGeographicArtSource extends RemoteMuzeiArtSource {
       publishArtwork(new Artwork.Builder()
             .title(photo.title)
             .byline(dateString)
-            .imageUri(Uri.parse(photo.enclosure.url))
+            //replace e.g. '360x270.jpg' to '0x0.jpg', to get the highes resolution available
+            .imageUri(Uri.parse(photo.enclosure.url.replaceAll("\\d+x\\d+\\.jpg$", "0x0.jpg")))
             .token(photo.pubDate + "|" + photo.description)
             .viewIntent(new Intent(Intent.ACTION_VIEW, Uri.parse(photo.link)))
             .build());

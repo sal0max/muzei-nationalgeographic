@@ -17,8 +17,6 @@
 
 package de.msal.muzei.nationalgeographic;
 
-import com.google.android.apps.muzei.api.RemoteMuzeiArtSource;
-
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
@@ -27,11 +25,10 @@ import org.simpleframework.xml.Root;
 
 import java.util.List;
 
-import retrofit.RestAdapter;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
-import retrofit.converter.SimpleXMLConverter;
-import retrofit.http.GET;
+import retrofit2.Call;
+import retrofit2.Retrofit;
+import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
+import retrofit2.http.GET;
 
 public class NationalGeographicService {
 
@@ -40,83 +37,58 @@ public class NationalGeographicService {
    public interface Service {
 
       @GET("/ng/photography/photo-of-the-day/")
-      Rss getPhotoOfTheDayFeed();
+      Call<Rss> getPhotoOfTheDayFeed();
    }
 
    public static Service getAdapter() {
-      RestAdapter ngAdapter = new RestAdapter.Builder()
-            .setEndpoint(API_URL)
-            .setConverter(new SimpleXMLConverter())
-            .setErrorHandler(new retrofit.ErrorHandler() {
-               @Override
-               public Throwable handleError(RetrofitError retrofitError) {
-                  Response response = retrofitError.getResponse();
-                  if (response == null) {
-                     return new RemoteMuzeiArtSource.RetryException();
-                  }
-                  int statusCode = response.getStatus();
-                  if (retrofitError.getKind() == RetrofitError.Kind.NETWORK
-                        || (500 <= statusCode && statusCode < 600)) {
-                     return new RemoteMuzeiArtSource.RetryException();
-                  }
-                  return retrofitError;
-               }
-            })
+      Retrofit ngAdapter = new Retrofit.Builder()
+            .baseUrl(API_URL)
+            .addConverterFactory(SimpleXmlConverterFactory.createNonStrict())
             .build();
 
       return ngAdapter.create(Service.class);
    }
 
-   @Root(strict = false, name = "rss")
+   @Root(name = "rss")
    @Namespace(reference = "http://rssnamespace.org/feedburner/ext/1.0", prefix = "feedburner")
    static class Rss {
-
       @Element(name = "channel")
       Feed feed;
-
       List<Photo> getPhotos() {
          return feed.getPhotos();
       }
    }
 
-   @Root(strict = false, name = "channel")
+   @Root(name = "channel")
    static class Feed {
-
       @ElementList(name = "item", inline = true)
       List<Photo> photos;
-
       List<Photo> getPhotos() {
          return photos;
       }
    }
 
-   @Root(strict = false, name = "item")
+   @Root(name = "item")
    static class Photo {
-
       @Element
       String title;
-
       @Element
       String link;
-
       @Element
       String description;
-
       /**
        * pubDate can be used as unique ID
        */
       @Element
       String pubDate;
-
       @Element
       Enclusure enclosure;
+   }
 
-      @Root(strict = false)
-      static class Enclusure {
-
-         @Attribute
-         String url;
-      }
+   @Root()
+   static class Enclusure {
+      @Attribute
+      String url;
    }
 
 }

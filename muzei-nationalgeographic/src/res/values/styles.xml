@@ -17,15 +17,15 @@
   ~ along with this program.  If not, see http://www.gnu.org/licenses/.
   -->
 
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
    <style name="Theme.Muzei" parent="android:Theme.Holo">
       <item name="android:windowBackground">@color/window_background</item>
       <item name="android:actionBarStyle">@style/Widget.Muzei.ActionBar</item>
       <item name="android:windowContentOverlay">@null</item>
       <item name="android:textAppearanceMedium">@style/TextAppearance.Muzei.Medium</item>
-      <item name="android:windowTranslucentNavigation">true</item>
-      <item name="android:windowTranslucentStatus">true</item>
+      <item name="android:windowTranslucentNavigation" tools:targetApi="kitkat">true</item>
+      <item name="android:windowTranslucentStatus" tools:targetApi="kitkat">true</item>
    </style>
 
    <style name="Widget.Muzei.ActionBar" parent="android:Widget.Holo.ActionBar">

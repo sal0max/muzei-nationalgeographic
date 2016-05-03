@@ -21,11 +21,6 @@ import com.google.android.apps.muzei.api.Artwork;
 import com.google.android.apps.muzei.api.RemoteMuzeiArtSource;
 import com.google.android.apps.muzei.api.UserCommand;
 
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -39,10 +34,16 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
+import java.util.TimeZone;
 
 public class NationalGeographicArtSource extends RemoteMuzeiArtSource {
 
@@ -51,10 +52,8 @@ public class NationalGeographicArtSource extends RemoteMuzeiArtSource {
 
    private static final int USER_COMMAND_ID_SHARE = 1;
    private static final int USER_COMMAND_ID_PHOTO_DESCRIPTION = 2;
-   public static final String ACTION_NEW_SETTINGS
-         = "de.msal.muzei.nationalgeographic.action.NEW_SETTINGS";
-   public static final String EXTRA_SHOULD_REFRESH
-         = "de.msal.muzei.nationalgeographic.extra.SHOULD_REFRESH";
+   public static final String ACTION_NEW_SETTINGS = "de.msal.muzei.nationalgeographic.action.NEW_SETTINGS";
+   public static final String EXTRA_SHOULD_REFRESH = "de.msal.muzei.nationalgeographic.extra.SHOULD_REFRESH";
 
    /* preferences */
    private SharedPreferences prefs;
@@ -77,10 +76,8 @@ public class NationalGeographicArtSource extends RemoteMuzeiArtSource {
       if (isRandom) {
          userCommands.add(new UserCommand(BUILTIN_COMMAND_ID_NEXT_ARTWORK));
       }
-      userCommands.add(new UserCommand(USER_COMMAND_ID_SHARE,
-            getString(R.string.share_artwork_title)));
-      userCommands.add(new UserCommand(USER_COMMAND_ID_PHOTO_DESCRIPTION,
-            getString(R.string.photo_desc_open)));
+      userCommands.add(new UserCommand(USER_COMMAND_ID_SHARE, getString(R.string.share_artwork_title)));
+      userCommands.add(new UserCommand(USER_COMMAND_ID_PHOTO_DESCRIPTION, getString(R.string.photo_desc_open)));
       setUserCommands(userCommands);
    }
 
@@ -93,18 +90,14 @@ public class NationalGeographicArtSource extends RemoteMuzeiArtSource {
                new Handler(Looper.getMainLooper()).post(new Runnable() {
                   @Override
                   public void run() {
-                     Toast.makeText(getApplicationContext(),
-                           R.string.photo_desc_nothing_to_show,
-                           Toast.LENGTH_SHORT).show();
+                     Toast.makeText(getApplicationContext(), R.string.photo_desc_nothing_to_show, Toast.LENGTH_SHORT).show();
                   }
                });
                scheduleUpdate(System.currentTimeMillis() + 500);
             } else {
                Intent intent = new Intent(this, PhotoDescriptionActivity.class);
-               intent.putExtra(PhotoDescriptionActivity.EXTRA_TITLE,
-                     getCurrentArtwork().getTitle());
-               String desc = getCurrentArtwork().getToken()
-                     .substring(32, getCurrentArtwork().getToken().length());
+               intent.putExtra(PhotoDescriptionActivity.EXTRA_TITLE, getCurrentArtwork().getTitle());
+               String desc = getCurrentArtwork().getToken().substring(32, getCurrentArtwork().getToken().length());
                intent.putExtra(PhotoDescriptionActivity.EXTRA_DESC, desc);
                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                startActivity(intent);
@@ -117,8 +110,7 @@ public class NationalGeographicArtSource extends RemoteMuzeiArtSource {
                new Handler(Looper.getMainLooper()).post(new Runnable() {
                   @Override
                   public void run() {
-                     Toast.makeText(getApplicationContext(),
-                           R.string.share_artwork_nothing_to_share,
+                     Toast.makeText(getApplicationContext(), R.string.share_artwork_nothing_to_share,
                            Toast.LENGTH_SHORT).show();
                   }
                });
@@ -129,8 +121,7 @@ public class NationalGeographicArtSource extends RemoteMuzeiArtSource {
                      currentArtwork.getTitle(),
                      currentArtwork.getByline(),
                      currentArtwork.getViewIntent().getDataString()));
-               shareIntent = Intent.createChooser(shareIntent,
-                     getString(R.string.share_artwork_title));
+               shareIntent = Intent.createChooser(shareIntent, getString(R.string.share_artwork_title));
                shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                startActivity(shareIntent);
             }
@@ -140,12 +131,7 @@ public class NationalGeographicArtSource extends RemoteMuzeiArtSource {
 
    @Override
    protected void onHandleIntent(Intent intent) {
-      if (intent == null) {
-         super.onHandleIntent(intent);
-         return;
-      }
-      if (intent.getAction().equals(ACTION_NEW_SETTINGS)
-            && intent.getBooleanExtra(EXTRA_SHOULD_REFRESH, true)) {
+      if (intent != null && intent.getAction().equals(ACTION_NEW_SETTINGS) && intent.getBooleanExtra(EXTRA_SHOULD_REFRESH, true)) {
          scheduleUpdate(System.currentTimeMillis() + 500); // returned from prefs - update now!
       }
       super.onHandleIntent(intent);
@@ -159,8 +145,12 @@ public class NationalGeographicArtSource extends RemoteMuzeiArtSource {
 
       String currentToken = (getCurrentArtwork() != null) ? getCurrentArtwork().getToken() : null;
 
-      NationalGeographicService.Service adapter = NationalGeographicService.getAdapter();
-      List<NationalGeographicService.Photo> photos = adapter.getPhotoOfTheDayFeed().getPhotos();
+      List<NationalGeographicService.Photo> photos;
+      try {
+         photos = NationalGeographicService.getAdapter().getPhotoOfTheDayFeed().execute().body().getPhotos();
+      } catch (IOException e) {
+         throw new RetryException(e);
+      }
 
       if (photos == null) {
          throw new RetryException();
@@ -191,18 +181,16 @@ public class NationalGeographicArtSource extends RemoteMuzeiArtSource {
          }
       }
 
-      String dateString = "";
+      String dateString;
       try {
-         DateTime dateTime = DateTimeFormat
-               .forPattern("EEE, dd MMM yyyy HH:mm:ss Z")
-               .withLocale(Locale.ENGLISH)
-               .parseDateTime(photo.pubDate)
-               .withZone(DateTimeZone.forOffsetHours(-5));
+         // ignore timezone to avoid day-shifted result in timezones < GMT-4/GMT-5
+         SimpleDateFormat orgFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss", Locale.ENGLISH);
+         SimpleDateFormat newFormat = new SimpleDateFormat("MMMM dd, yyyy", Locale.ENGLISH);
 
-         DateTimeFormatter formatter = DateTimeFormat.longDate().withLocale(Locale.US);
-         dateString = formatter.print(dateTime);
-      } catch (IllegalArgumentException e) {
-         Log.e(TAG, "Date could not be parsed: " + e.getMessage());
+         Date formatted = orgFormat.parse(photo.pubDate);
+         dateString = newFormat.format(formatted);
+      } catch (ParseException e) {
+         dateString = photo.pubDate;
       }
 
       publishArtwork(new Artwork.Builder()
@@ -220,24 +208,23 @@ public class NationalGeographicArtSource extends RemoteMuzeiArtSource {
    private void scheduleNextUpdate() {
       if (isRandom) { /* update with the specified interval */
          int intervalTimeMilis = Integer.parseInt(
-               prefs.getString(getString(R.string.pref_intervalpicker_key),
-                     getString(R.string.pref_intervalpicker_defaultvalue)))
+               prefs.getString(getString(R.string.pref_intervalpicker_key), getString(R.string.pref_intervalpicker_defaultvalue)))
                * 60    // sec
                * 1000; // msec
          scheduleUpdate(System.currentTimeMillis() + intervalTimeMilis);
 
-      } else { /* update every day on 0:10 UTC-5 */
-         DateTime dateTime = DateTime.now()
-               .withZone(DateTimeZone.forOffsetHours(-5))
-               .withHourOfDay(0)
-               .withMinuteOfHour(10) // +10min offset for latencies
-               .withSecondOfMinute(0)
-               .withMillisOfSecond(0)
-               .withZone(DateTimeZone.UTC);
-         if (dateTime.isBeforeNow()) {
-            dateTime = dateTime.plusDays(1);
+      } else { /* update every day at 0:10 */
+         //NG apperantly uses EST/EDT timezone (e.g. used in New York)
+         Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("America/New_York"));
+         // NG posts @00:00:00 each day
+         cal.set(Calendar.HOUR_OF_DAY, 0);
+         cal.set(Calendar.MINUTE, 10); // add 10mins for latency
+         cal.set(Calendar.SECOND, 0);
+         cal.set(Calendar.MILLISECOND, 0);
+         while (cal.getTimeInMillis() < System.currentTimeMillis()) {
+            cal.add(Calendar.DAY_OF_YEAR, 1);
          }
-         scheduleUpdate(dateTime.toInstant().getMillis());
+         scheduleUpdate(cal.getTimeInMillis());
       }
    }
 

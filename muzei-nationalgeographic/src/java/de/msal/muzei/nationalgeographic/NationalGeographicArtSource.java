@@ -195,7 +195,7 @@ public class NationalGeographicArtSource extends RemoteMuzeiArtSource {
       publishArtwork(new Artwork.Builder()
             .title(photo.getTitle())
             .byline(photo.getPublishDate())
-            .imageUri(Uri.parse(photo.getSizes() != null ? photo.getUrl() + photo.getSizes().get1600() : photo.getUrl())) //TODO imageSize -> settings
+            .imageUri(Uri.parse(photo.getSizes() != null ? photo.getUrl() + photo.getSizes().get2048() : photo.getUrl()))
             .token(photo.getCaption())
             .viewIntent(new Intent(Intent.ACTION_VIEW, Uri.parse(photo.getPageUrl())))
             .build());

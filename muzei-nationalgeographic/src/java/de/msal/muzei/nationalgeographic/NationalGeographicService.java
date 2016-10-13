@@ -17,78 +17,36 @@
 
 package de.msal.muzei.nationalgeographic;
 
-import org.simpleframework.xml.Attribute;
-import org.simpleframework.xml.Element;
-import org.simpleframework.xml.ElementList;
-import org.simpleframework.xml.Namespace;
-import org.simpleframework.xml.Root;
-
-import java.util.List;
-
+import de.msal.muzei.nationalgeographic.model.Feed;
 import retrofit2.Call;
 import retrofit2.Retrofit;
-import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 
-public class NationalGeographicService {
+class NationalGeographicService {
 
-   private static final String API_URL = "http://feeds.nationalgeographic.com";
+   private static final String API_URL = "http://www.nationalgeographic.com";
 
-   public interface Service {
-
-      @GET("/ng/photography/photo-of-the-day/")
-      Call<Rss> getPhotoOfTheDayFeed();
-   }
-
-   public static Service getAdapter() {
+   static Service getAdapter() {
       Retrofit ngAdapter = new Retrofit.Builder()
             .baseUrl(API_URL)
-            .addConverterFactory(SimpleXmlConverterFactory.createNonStrict())
+            .addConverterFactory(GsonConverterFactory.create())
             .build();
 
       return ngAdapter.create(Service.class);
    }
 
-   @Root(name = "rss")
-   @Namespace(reference = "http://rssnamespace.org/feedburner/ext/1.0", prefix = "feedburner")
-   static class Rss {
-      @Element(name = "channel")
-      Feed feed;
-      List<Photo> getPhotos() {
-         return feed.getPhotos();
-      }
-   }
+   interface Service {
 
-   @Root(name = "channel")
-   static class Feed {
-      @ElementList(name = "item", inline = true)
-      List<Photo> photos;
-      List<Photo> getPhotos() {
-         return photos;
-      }
-   }
+      @GET("/photography/photo-of-the-day/_jcr_content/.gallery.json")
+      Call<Feed> getPhotoOfTheDayFeed();
 
-   @Root(name = "item")
-   static class Photo {
-      @Element
-      String title;
-      @Element
-      String link;
-      @Element
-      String description;
-      /**
-       * pubDate can be used as unique ID
-       */
-      @Element
-      String pubDate;
-      @Element
-      Enclusure enclosure;
-   }
-
-   @Root()
-   static class Enclusure {
-      @Attribute
-      String url;
+      @GET("/photography/photo-of-the-day/_jcr_content/.gallery.{year}-{month}.json")
+      Call<Feed> getPhotoOfTheDayFeed(
+            @Path("year") int year,
+            @Path("month") int month
+      );
    }
 
 }

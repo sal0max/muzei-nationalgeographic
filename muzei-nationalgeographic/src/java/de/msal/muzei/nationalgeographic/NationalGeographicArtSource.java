@@ -35,15 +35,13 @@ import android.util.Log;
 import android.widget.Toast;
 
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.Random;
 import java.util.TimeZone;
+
+import de.msal.muzei.nationalgeographic.model.Item;
 
 public class NationalGeographicArtSource extends RemoteMuzeiArtSource {
 
@@ -97,8 +95,7 @@ public class NationalGeographicArtSource extends RemoteMuzeiArtSource {
             } else {
                Intent intent = new Intent(this, PhotoDescriptionActivity.class);
                intent.putExtra(PhotoDescriptionActivity.EXTRA_TITLE, getCurrentArtwork().getTitle());
-               String desc = getCurrentArtwork().getToken().substring(32, getCurrentArtwork().getToken().length());
-               intent.putExtra(PhotoDescriptionActivity.EXTRA_DESC, desc);
+               intent.putExtra(PhotoDescriptionActivity.EXTRA_DESC, getCurrentArtwork().getToken());
                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                startActivity(intent);
             }
@@ -145,9 +142,23 @@ public class NationalGeographicArtSource extends RemoteMuzeiArtSource {
 
       String currentToken = (getCurrentArtwork() != null) ? getCurrentArtwork().getToken() : null;
 
-      List<NationalGeographicService.Photo> photos;
+      List<Item> photos;
       try {
-         photos = NationalGeographicService.getAdapter().getPhotoOfTheDayFeed().execute().body().getPhotos();
+         NationalGeographicService.Service service = NationalGeographicService.getAdapter();
+         if (isRandom) {
+            // get the all the photos of a month between January 2011 and now
+            Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("America/New_York"));
+            int randYear = getRand(2011, cal.get(Calendar.YEAR));
+            @SuppressWarnings("WrongConstant")
+            int randMonth = randYear == cal.get(Calendar.YEAR) ? getRand(1, cal.get(Calendar.MONTH) + 1) : getRand(1, 12);
+            photos = service.getPhotoOfTheDayFeed(randYear, randMonth)
+                        .execute()
+                        .body()
+                        .getItems();
+         } else {
+            // get the all the photos of the current month
+            photos = service.getPhotoOfTheDayFeed().execute().body().getItems();
+         }
       } catch (IOException e) {
          throw new RetryException(e);
       }
@@ -161,45 +172,32 @@ public class NationalGeographicArtSource extends RemoteMuzeiArtSource {
          throw new RetryException();
       }
 
-      NationalGeographicService.Photo photo;
+      Item photo;
       if (isRandom) {
          Random random = new Random();
          String token;
          while (true) {
             photo = photos.get(random.nextInt(photos.size()));
-            token = photo.pubDate + "|" + photo.description;
+            token = photo.getCaption();
             if (photos.size() <= 1 || !TextUtils.equals(token, currentToken)) {
                break;
             }
          }
       } else {
          photo = photos.get(0);
-         String token = photo.pubDate + "|" + photo.description;
-           /* try again later if no new photo is online, yet */
+         String token = photo.getCaption();
+         /* try again later if no new photo is online, yet */
          if (TextUtils.equals(token, currentToken)) {
             throw new RetryException();
          }
       }
 
-      String dateString;
-      try {
-         // ignore timezone to avoid day-shifted result in timezones < GMT-4/GMT-5
-         SimpleDateFormat orgFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss", Locale.ENGLISH);
-         SimpleDateFormat newFormat = new SimpleDateFormat("MMMM dd, yyyy", Locale.ENGLISH);
-
-         Date formatted = orgFormat.parse(photo.pubDate);
-         dateString = newFormat.format(formatted);
-      } catch (ParseException e) {
-         dateString = photo.pubDate;
-      }
-
       publishArtwork(new Artwork.Builder()
-            .title(photo.title)
-            .byline(dateString)
-            //replace e.g. '360x270.jpg' to '0x0.jpg', to get the highes resolution available
-            .imageUri(Uri.parse(photo.enclosure.url.replaceAll("\\d+x\\d+\\.jpg$", "0x0.jpg")))
-            .token(photo.pubDate + "|" + photo.description)
-            .viewIntent(new Intent(Intent.ACTION_VIEW, Uri.parse(photo.link)))
+            .title(photo.getTitle())
+            .byline(photo.getPublishDate())
+            .imageUri(Uri.parse(photo.getSizes() != null ? photo.getUrl() + photo.getSizes().get1600() : photo.getUrl())) //TODO imageSize -> settings
+            .token(photo.getCaption())
+            .viewIntent(new Intent(Intent.ACTION_VIEW, Uri.parse(photo.getPageUrl())))
             .build());
 
       scheduleNextUpdate();
@@ -234,6 +232,16 @@ public class NationalGeographicArtSource extends RemoteMuzeiArtSource {
       return (info != null
             && info.isConnected()
             && info.getType() == ConnectivityManager.TYPE_WIFI);
+   }
+
+   /**
+    * @param min inclusive
+    * @param max inclusive
+    * @return the random number
+    */
+   private int getRand(int min, int max) {
+      Random rand = new Random();
+      return rand.nextInt((max - min) + 1) + min;
    }
 
 }

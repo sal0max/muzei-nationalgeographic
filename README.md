@@ -1,4 +1,4 @@
-#National Geographic for Muzei
+# National Geographic for Muzei
 
 [![Get it on Google Play](http://i.imgur.com/WF8PAzJ.png)](https://play.google.com/store/apps/details?id=de.msal.muzei.nationalgeographic)
 

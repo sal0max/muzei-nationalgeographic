@@ -1,6 +1,8 @@
 # National Geographic for Muzei
 
-[![Get it on Google Play](http://i.imgur.com/WF8PAzJ.png)](https://play.google.com/store/apps/details?id=de.msal.muzei.nationalgeographic)
+[<img alt="Get it on F-Droid" height="90" src="https://f-droid.org/badge/get-it-on.png">](https://f-droid.org/packages/de.msal.muzei.nationalgeographic/)
+[<img alt="Get it on Google Play" height="90" src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png">](https://play.google.com/store/apps/details?id=de.msal.muzei.nationalgeographic)
+
 
 ## About
 

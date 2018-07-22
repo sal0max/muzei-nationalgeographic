@@ -20,6 +20,7 @@ package de.msal.muzei.nationalgeographic;
 import android.app.Activity;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
@@ -41,7 +42,7 @@ public class PhotoDescriptionActivity extends Activity implements Html.ImageGett
 
       setTitle(Html.fromHtml(getString(R.string.photo_desc_title, title)));
 
-      TextView textViewDesc = (TextView) findViewById(R.id.activityPhotoDescription_textView);
+      TextView textViewDesc = findViewById(R.id.activityPhotoDescription_textView);
       textViewDesc.setFitsSystemWindows(true);
       textViewDesc.setMovementMethod(LinkMovementMethod.getInstance());
       textViewDesc.setText(Html.fromHtml(desc, this, null));
@@ -60,6 +61,12 @@ public class PhotoDescriptionActivity extends Activity implements Html.ImageGett
 
    @Override
    public Drawable getDrawable(String source) {
-      return new ColorDrawable(android.R.color.transparent);
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+         return new ColorDrawable(getColor(android.R.color.transparent));
+      } else {
+         //noinspection deprecation
+         return new ColorDrawable(getResources().getColor(android.R.color.transparent));
+      }
    }
+
 }

@@ -18,20 +18,24 @@
 apply plugin: 'com.android.application'
 
 dependencies {
-   compile 'com.google.android.apps.muzei:muzei-api:2.0'
-   compile 'com.squareup.retrofit2:retrofit:2.1.0'
-   compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+   implementation 'com.google.android.apps.muzei:muzei-api:2.0'
+   implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+   implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
 }
 
 android {
-   compileSdkVersion 24
-   buildToolsVersion "24.0.3"
+   compileSdkVersion 27
+   buildToolsVersion "27.0.3"
 
    defaultConfig {
       minSdkVersion 17
-      targetSdkVersion 24
-      versionCode 9
-      versionName "1.2.0"
+      targetSdkVersion 27
+      // SemVer
+      def major = 1
+      def minor = 2
+      def patch = 1
+      versionCode = (major * 10000) + (minor * 100) + patch
+      versionName = "$major ($major.$minor.$patch)"
    }
 
    sourceSets {
@@ -46,7 +50,7 @@ android {
    signingConfigs {
       release {
          /* get the keystore data for signing */
-         def Properties props = new Properties()
+         Properties props = new Properties()
          def propFile = file('../keystore/signing.properties')
 
          if (propFile.canRead()) {
@@ -74,8 +78,6 @@ android {
 
    buildTypes {
       release {
-         //runProguard true
-         //proguardFiles getDefaultProguardFile('proguard-android.txt'), file('proguard.txt')
          signingConfig signingConfigs.release
          debuggable false
          zipAlignEnabled true
@@ -84,8 +86,6 @@ android {
    }
 
    lintOptions {
-      lintConfig file("lint.xml")
+      disable 'InvalidPackage'
    }
 }
-
-

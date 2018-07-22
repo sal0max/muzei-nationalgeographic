@@ -45,7 +45,7 @@ import de.msal.muzei.nationalgeographic.model.Item;
 
 public class NationalGeographicArtSource extends RemoteMuzeiArtSource {
 
-   private static final String TAG = "NGforMuzei";
+   private static final String TAG = "NgForMuzei";
    private static final String SOURCE_NAME = "NationalGeographicSource";
 
    private static final int USER_COMMAND_ID_SHARE = 1;
@@ -205,14 +205,14 @@ public class NationalGeographicArtSource extends RemoteMuzeiArtSource {
 
    private void scheduleNextUpdate() {
       if (isRandom) { /* update with the specified interval */
-         int intervalTimeMilis = Integer.parseInt(
+         int intervalTimeMillis = Integer.parseInt(
                prefs.getString(getString(R.string.pref_intervalpicker_key), getString(R.string.pref_intervalpicker_defaultvalue)))
                * 60    // sec
-               * 1000; // msec
-         scheduleUpdate(System.currentTimeMillis() + intervalTimeMilis);
+               * 1000; // millis
+         scheduleUpdate(System.currentTimeMillis() + intervalTimeMillis);
 
       } else { /* update every day at 0:10 */
-         //NG apperantly uses EST/EDT timezone (e.g. used in New York)
+         //NG apparently uses EST/EDT timezone (e.g. used in New York)
          Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("America/New_York"));
          // NG posts @00:00:00 each day
          cal.set(Calendar.HOUR_OF_DAY, 0);

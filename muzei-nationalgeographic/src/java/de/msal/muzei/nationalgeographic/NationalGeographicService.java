@@ -26,7 +26,7 @@ import retrofit2.http.Path;
 
 class NationalGeographicService {
 
-   private static final String API_URL = "http://www.nationalgeographic.com";
+   private static final String API_URL = "https://www.nationalgeographic.com";
 
    static Service getAdapter() {
       Retrofit ngAdapter = new Retrofit.Builder()

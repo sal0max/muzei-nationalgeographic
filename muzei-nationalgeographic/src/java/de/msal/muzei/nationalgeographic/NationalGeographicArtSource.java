@@ -25,7 +25,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
@@ -41,6 +40,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.TimeZone;
 
+import de.msal.muzei.nationalgeographic.model.Feed;
 import de.msal.muzei.nationalgeographic.model.Item;
 
 public class NationalGeographicArtSource extends RemoteMuzeiArtSource {
@@ -128,7 +128,9 @@ public class NationalGeographicArtSource extends RemoteMuzeiArtSource {
 
    @Override
    protected void onHandleIntent(Intent intent) {
-      if (intent != null && intent.getAction().equals(ACTION_NEW_SETTINGS) && intent.getBooleanExtra(EXTRA_SHOULD_REFRESH, true)) {
+      if (intent != null
+              && intent.getAction() != null
+              && intent.getAction().equals(ACTION_NEW_SETTINGS) && intent.getBooleanExtra(EXTRA_SHOULD_REFRESH, true)) {
          scheduleUpdate(System.currentTimeMillis() + 500); // returned from prefs - update now!
       }
       super.onHandleIntent(intent);
@@ -149,15 +151,19 @@ public class NationalGeographicArtSource extends RemoteMuzeiArtSource {
             // get the all the photos of a month between January 2011 and now
             Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("America/New_York"));
             int randYear = getRand(2011, cal.get(Calendar.YEAR));
-            @SuppressWarnings("WrongConstant")
             int randMonth = randYear == cal.get(Calendar.YEAR) ? getRand(1, cal.get(Calendar.MONTH) + 1) : getRand(1, 12);
-            photos = service.getPhotoOfTheDayFeed(randYear, randMonth)
-                        .execute()
-                        .body()
-                        .getItems();
+            Feed body = service.getPhotoOfTheDayFeed(randYear, randMonth).execute().body();
+            if (body == null)
+               throw new RetryException();
+            else
+               photos = body.getItems();
          } else {
             // get the all the photos of the current month
-            photos = service.getPhotoOfTheDayFeed().execute().body().getItems();
+            Feed body = service.getPhotoOfTheDayFeed().execute().body();
+            if (body == null)
+               throw new RetryException();
+            else
+               photos = body.getItems();
          }
       } catch (IOException e) {
          throw new RetryException(e);
@@ -228,10 +234,10 @@ public class NationalGeographicArtSource extends RemoteMuzeiArtSource {
 
    private boolean isConnectedWifi() {
       ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-      NetworkInfo info = cm.getActiveNetworkInfo();
-      return (info != null
-            && info.isConnected()
-            && info.getType() == ConnectivityManager.TYPE_WIFI);
+      return (cm != null
+              && cm.getActiveNetworkInfo() != null
+              && cm.getActiveNetworkInfo().isConnected()
+              && cm.getActiveNetworkInfo().getType() == ConnectivityManager.TYPE_WIFI);
    }
 
    /**

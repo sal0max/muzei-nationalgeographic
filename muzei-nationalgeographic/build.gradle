@@ -29,7 +29,7 @@ android {
    defaultConfig {
       applicationId 'de.msal.muzei.nationalgeographic'
       minSdkVersion 17
-      targetSdkVersion 28
+      targetSdkVersion 25
       buildToolsVersion '28.0.2'
       // SemVer
       def major = 1

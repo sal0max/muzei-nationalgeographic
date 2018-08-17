@@ -4,6 +4,7 @@ package de.msal.muzei.nationalgeographic.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+@SuppressWarnings("unused")
 public class Sizes {
 
     @SerializedName("320")

@@ -6,6 +6,7 @@ import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+@SuppressWarnings("unused")
 public class Feed {
 
     @SerializedName("galleryTitle")
@@ -19,7 +20,7 @@ public class Feed {
     private String nextEndpoint;
     @SerializedName("items")
     @Expose
-    private List<Item> items = new ArrayList<Item>();
+    private List<Item> items = new ArrayList<>();
 
     /**
      * 

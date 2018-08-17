@@ -222,7 +222,7 @@ public class NationalGeographicArtSource extends RemoteMuzeiArtSource {
          Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("America/New_York"));
          // NG posts @00:00:00 each day
          cal.set(Calendar.HOUR_OF_DAY, 0);
-         cal.set(Calendar.MINUTE, 10); // add 10mins for latency
+         cal.set(Calendar.MINUTE, 10); // add 10min for latency
          cal.set(Calendar.SECOND, 0);
          cal.set(Calendar.MILLISECOND, 0);
          while (cal.getTimeInMillis() < System.currentTimeMillis()) {

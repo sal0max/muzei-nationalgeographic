@@ -30,7 +30,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.Toast;
 
 import java.io.IOException;

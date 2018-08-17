@@ -34,8 +34,8 @@ android {
       buildToolsVersion '28.0.2'
       // SemVer
       def major = 1
-      def minor = 2
-      def patch = 1
+      def minor = 3
+      def patch = 0
       versionCode = (major * 10000) + (minor * 100) + patch
       versionName = "$major ($major.$minor.$patch)"
    }

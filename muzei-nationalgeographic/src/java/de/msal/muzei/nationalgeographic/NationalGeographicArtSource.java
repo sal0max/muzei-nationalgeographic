@@ -50,6 +50,8 @@ public class NationalGeographicArtSource extends RemoteMuzeiArtSource {
 
    private static final int USER_COMMAND_ID_SHARE = 1;
    private static final int USER_COMMAND_ID_PHOTO_DESCRIPTION = 2;
+   private static final int USER_COMMAND_ID_UPDATE_NOW = 3;
+
    public static final String ACTION_NEW_SETTINGS = "de.msal.muzei.nationalgeographic.action.NEW_SETTINGS";
    public static final String EXTRA_SHOULD_REFRESH = "de.msal.muzei.nationalgeographic.extra.SHOULD_REFRESH";
 
@@ -76,6 +78,8 @@ public class NationalGeographicArtSource extends RemoteMuzeiArtSource {
       }
       userCommands.add(new UserCommand(USER_COMMAND_ID_SHARE, getString(R.string.share_artwork_title)));
       userCommands.add(new UserCommand(USER_COMMAND_ID_PHOTO_DESCRIPTION, getString(R.string.photo_desc_open)));
+      if (!isRandom)
+         userCommands.add(new UserCommand(USER_COMMAND_ID_UPDATE_NOW, getString(R.string.photo_reload)));
       setUserCommands(userCommands);
    }
 
@@ -123,6 +127,12 @@ public class NationalGeographicArtSource extends RemoteMuzeiArtSource {
                startActivity(shareIntent);
             }
             break;
+         case USER_COMMAND_ID_UPDATE_NOW:
+            // Don't use scheduleUpdate() here! Will cause infinite loop.
+            try {
+               onTryUpdate(UPDATE_REASON_USER_NEXT);
+            } catch (RetryException ignored) {}
+            break;
       }
    }
 
@@ -131,7 +141,7 @@ public class NationalGeographicArtSource extends RemoteMuzeiArtSource {
       if (intent != null
               && intent.getAction() != null
               && intent.getAction().equals(ACTION_NEW_SETTINGS) && intent.getBooleanExtra(EXTRA_SHOULD_REFRESH, true)) {
-         scheduleUpdate(System.currentTimeMillis() + 500); // returned from prefs - update now!
+         scheduleUpdate(System.currentTimeMillis() + 100); // returned from prefs - update now!
       }
       super.onHandleIntent(intent);
    }
@@ -169,12 +179,7 @@ public class NationalGeographicArtSource extends RemoteMuzeiArtSource {
          throw new RetryException(e);
       }
 
-      if (photos == null) {
-         throw new RetryException();
-      }
-
-      if (photos.size() == 0) {
-         Log.e(TAG, "No feed returned from API.");
+      if (photos == null || photos.size() == 0) {
          throw new RetryException();
       }
 

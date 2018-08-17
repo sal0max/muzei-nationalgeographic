@@ -58,4 +58,7 @@
    <string name="photo_desc_open">About this photo</string>
    <string name="photo_desc_nothing_to_show">No photo description available. - Please try again.</string>
 
+   <!-- reload -->
+   <string name="photo_reload">Reload photo of the day</string>
+
 </resources>

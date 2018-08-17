@@ -45,7 +45,6 @@ import de.msal.muzei.nationalgeographic.model.Item;
 
 public class NationalGeographicArtSource extends RemoteMuzeiArtSource {
 
-   private static final String TAG = "NgForMuzei";
    private static final String SOURCE_NAME = "NationalGeographicSource";
 
    private static final int USER_COMMAND_ID_SHARE = 1;

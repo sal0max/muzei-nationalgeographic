@@ -126,10 +126,12 @@ public class NationalGeographicArtSource extends RemoteMuzeiArtSource {
             }
             break;
          case USER_COMMAND_ID_UPDATE_NOW:
-            // Don't use scheduleUpdate() here! Will cause infinite loop.
+            // Don't use scheduleUpdate(System.currentTimeMillis()) here! Will cause an infinite loop.
             try {
                onTryUpdate(UPDATE_REASON_USER_NEXT);
-            } catch (RetryException ignored) {}
+            } catch (RetryException ignored) {
+               scheduleNextUpdate();
+            }
             break;
       }
    }

@@ -45,7 +45,7 @@
             android:value="#fbd42c" />
          <meta-data
             android:name="settingsActivity"
-            android:value=".SettingsActivity" />
+            android:value="de.msal.muzei.nationalgeographic.SettingsActivity" />
       </service>
 
       <activity

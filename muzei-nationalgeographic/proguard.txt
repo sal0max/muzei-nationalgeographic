@@ -1,7 +1,0 @@
--dontwarn javax.xml.stream.**
--dontwarn rx.**
--dontwarn com.squareup.okhttp.**
--assumenosideeffects class android.util.Log {
-    public static *** d(...);
-    public static *** v(...);
-}

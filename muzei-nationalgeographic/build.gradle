@@ -40,15 +40,6 @@ android {
       versionName = "$major ($major.$minor.$patch)"
    }
 
-   sourceSets {
-      main {
-         assets.srcDirs = ['src/assets']
-         java.srcDirs = ['src/java']
-         res.srcDirs = ['src/res']
-         manifest.srcFile 'src/AndroidManifest.xml'
-      }
-   }
-
    signingConfigs {
       release {
          /* get the keystore data for signing */
@@ -82,8 +73,14 @@ android {
       release {
          signingConfig signingConfigs.release
          debuggable false
+         minifyEnabled true
          zipAlignEnabled true
          jniDebuggable false
+         proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+      }
+      debug {
+         applicationIdSuffix '.debug'
+         versionNameSuffix ' [DEBUG]'
       }
    }
 

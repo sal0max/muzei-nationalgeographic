@@ -17,21 +17,40 @@
 
 package de.msal.muzei.nationalgeographic;
 
+import com.google.gson.GsonBuilder;
 import de.msal.muzei.nationalgeographic.model.Feed;
+import de.msal.muzei.nationalgeographic.model.Item;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 
+import java.io.IOException;
+import java.util.List;
+
+import static okhttp3.logging.HttpLoggingInterceptor.*;
+
+@SuppressWarnings("WeakerAccess")
 class NationalGeographicService {
 
    private static final String API_URL = "https://www.nationalgeographic.com";
 
    static Service getAdapter() {
+      HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+      logging.setLevel(Level.BASIC);
+      OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+      httpClient.addInterceptor(logging);  // <-- this is the important line!
+
       Retrofit ngAdapter = new Retrofit.Builder()
             .baseUrl(API_URL)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(
+                  new GsonBuilder()
+                        .registerTypeAdapter(Item.class, new ItemDeserializer())
+                        .create()))
+            .client(httpClient.build())
             .build();
 
       return ngAdapter.create(Service.class);
@@ -47,6 +66,22 @@ class NationalGeographicService {
             @Path("year") int year,
             @Path("month") int month
       );
+   }
+
+   public static List<Item> getPhotosOfTheDay() throws IOException {
+      Feed body = getAdapter().getPhotoOfTheDayFeed().execute().body();
+      if (body != null)
+         return body.getItems();
+      else
+         throw new IOException("Response was null.");
+   }
+
+   public static List<Item> getPhotosOfTheDay(int year, int month) throws IOException {
+      Feed body = getAdapter().getPhotoOfTheDayFeed(year, month).execute().body();
+      if (body != null)
+         return body.getItems();
+      else
+         throw new IOException("Response was null.");
    }
 
 }

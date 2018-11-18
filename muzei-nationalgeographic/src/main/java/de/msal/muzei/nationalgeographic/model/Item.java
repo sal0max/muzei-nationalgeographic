@@ -7,383 +7,184 @@ import com.google.gson.annotations.SerializedName;
 @SuppressWarnings("unused")
 public class Item {
 
-    @SerializedName("title")
-    @Expose
-    private String title;
-    @SerializedName("caption")
-    @Expose
-    private String caption;
-    @SerializedName("credit")
-    @Expose
-    private String credit;
-    @SerializedName("altText")
-    @Expose
-    private String altText;
-    @SerializedName("full-path-url")
-    @Expose
-    private String fullPathUrl;
-    @SerializedName("url")
-    @Expose
-    private String url;
-    @SerializedName("originalUrl")
-    @Expose
-    private String originalUrl;
-    @SerializedName("aspectRatio")
-    @Expose
-    private Double aspectRatio;
-    @SerializedName("sizes")
-    @Expose
-    private Sizes sizes;
-    @SerializedName("internal")
-    @Expose
-    private Boolean internal;
-    @SerializedName("pageUrl")
-    @Expose
-    private String pageUrl;
-    @SerializedName("publishDate")
-    @Expose
-    private String publishDate;
-    @SerializedName("yourShot")
-    @Expose
-    private Boolean yourShot;
-    @SerializedName("social")
-    @Expose
-    private Social social;
-    @SerializedName("livefyre")
-    @Expose
-    private Livefyre livefyre;
-    @SerializedName("guid")
-    @Expose
-    private String guid;
-    @SerializedName("height")
-    @Expose
-    private Integer height;
-    @SerializedName("width")
-    @Expose
-    private Integer width;
+   @SerializedName("title")
+   @Expose
+   private String title;
 
-    /**
-     * 
-     * @return
-     *     The title
-     */
-    public String getTitle() {
-        return title;
-    }
+   @SerializedName("caption")
+   @Expose
+   private String description;
 
-    /**
-     * 
-     * @param title
-     *     The title
-     */
-    public void setTitle(String title) {
-        this.title = title;
-    }
+   @SerializedName(value = "altText", alternate = {"alt_text"})
+   @Expose
+   private String altText;
 
-    /**
-     * 
-     * @return
-     *     The caption
-     */
-    public String getCaption() {
-        return caption;
-    }
+   @SerializedName(value = "originalUrl", alternate = {"uri"})
+   @Expose
+   private String imageUrl;
 
-    /**
-     * 
-     * @param caption
-     *     The caption
-     */
-    public void setCaption(String caption) {
-        this.caption = caption;
-    }
+   @SerializedName("full-path-url")
+   @Expose
+   private String pageUrl;
 
-    /**
-     * 
-     * @return
-     *     The credit
-     */
-    public String getCredit() {
-        return credit;
-    }
+   @SerializedName("pageUrl")
+   @Expose
+   private String pageUrlPhotoOfTheDay;
 
-    /**
-     * 
-     * @param credit
-     *     The credit
-     */
-    public void setCredit(String credit) {
-        this.credit = credit;
-    }
+   @SerializedName("credit")
+   @Expose
+   private String photographer;
 
-    /**
-     * 
-     * @return
-     *     The altText
-     */
-    public String getAltText() {
-        return altText;
-    }
+   @SerializedName("sizes")
+   @Expose
+   private Sizes sizes;
 
-    /**
-     * 
-     * @param altText
-     *     The altText
-     */
-    public void setAltText(String altText) {
-        this.altText = altText;
-    }
+   @SerializedName("internal")
+   @Expose
+   private Boolean internal;
 
-    /**
-     * 
-     * @return
-     *     The fullPathUrl
-     */
-    public String getFullPathUrl() {
-        return fullPathUrl;
-    }
+   @SerializedName("publishDate")
+   @Expose
+   private String publishDate;
 
-    /**
-     * 
-     * @param fullPathUrl
-     *     The full-path-url
-     */
-    public void setFullPathUrl(String fullPathUrl) {
-        this.fullPathUrl = fullPathUrl;
-    }
+   /**
+    * @return The title
+    */
+   public String getTitle() {
+      return title;
+   }
 
-    /**
-     * 
-     * @return
-     *     The url
-     */
-    public String getUrl() {
-        return url;
-    }
+   /**
+    * @param title The title
+    */
+   public void setTitle(String title) {
+      this.title = title;
+   }
 
-    /**
-     * 
-     * @param url
-     *     The url
-     */
-    public void setUrl(String url) {
-        this.url = url;
-    }
+   /**
+    * @return The description
+    */
+   public String getDescription() {
+      return description;
+   }
 
-    /**
-     * 
-     * @return
-     *     The originalUrl
-     */
-    public String getOriginalUrl() {
-        return originalUrl;
-    }
+   /**
+    * @param description The description
+    */
+   public void setDescription(String description) {
+      this.description = description;
+   }
 
-    /**
-     * 
-     * @param originalUrl
-     *     The originalUrl
-     */
-    public void setOriginalUrl(String originalUrl) {
-        this.originalUrl = originalUrl;
-    }
+   /**
+    * @return The photographer
+    */
+   public String getPhotographer() {
+      return photographer;
+   }
 
-    /**
-     * 
-     * @return
-     *     The aspectRatio
-     */
-    public Double getAspectRatio() {
-        return aspectRatio;
-    }
+   /**
+    * @param photographer The photographer
+    */
+   public void setPhotographer(String photographer) {
+      this.photographer = photographer;
+   }
 
-    /**
-     * 
-     * @param aspectRatio
-     *     The aspectRatio
-     */
-    public void setAspectRatio(Double aspectRatio) {
-        this.aspectRatio = aspectRatio;
-    }
+   /**
+    * @return The altText
+    */
+   public String getAltText() {
+      return altText;
+   }
 
-    /**
-     * 
-     * @return
-     *     The sizes
-     */
-    public Sizes getSizes() {
-        return sizes;
-    }
+   /**
+    * @param altText The altText
+    */
+   public void setAltText(String altText) {
+      this.altText = altText;
+   }
 
-    /**
-     * 
-     * @param sizes
-     *     The sizes
-     */
-    public void setSizes(Sizes sizes) {
-        this.sizes = sizes;
-    }
+   /**
+    * @return The pageUrl
+    */
+   public String getPageUrl() {
+      return pageUrl;
+   }
 
-    /**
-     * 
-     * @return
-     *     The internal
-     */
-    public Boolean getInternal() {
-        return internal;
-    }
+   /**
+    * @param pageUrl The full-path-url
+    */
+   public void setPageUrl(String pageUrl) {
+      this.pageUrl = pageUrl;
+   }
 
-    /**
-     * 
-     * @param internal
-     *     The internal
-     */
-    public void setInternal(Boolean internal) {
-        this.internal = internal;
-    }
+   /**
+    * @return The imageUrl
+    */
+   public String getImageUrl() {
+      return imageUrl;
+   }
 
-    /**
-     * 
-     * @return
-     *     The pageUrl
-     */
-    public String getPageUrl() {
-        return pageUrl;
-    }
+   /**
+    * @param imageUrl The imageUrl
+    */
+   public void setImageUrl(String imageUrl) {
+      this.imageUrl = imageUrl;
+   }
 
-    /**
-     * 
-     * @param pageUrl
-     *     The pageUrl
-     */
-    public void setPageUrl(String pageUrl) {
-        this.pageUrl = pageUrl;
-    }
+   /**
+    * @return The sizes
+    */
+   public Sizes getSizes() {
+      return sizes;
+   }
 
-    /**
-     * 
-     * @return
-     *     The publishDate
-     */
-    public String getPublishDate() {
-        return publishDate;
-    }
+   /**
+    * @param sizes The sizes
+    */
+   public void setSizes(Sizes sizes) {
+      this.sizes = sizes;
+   }
 
-    /**
-     * 
-     * @param publishDate
-     *     The publishDate
-     */
-    public void setPublishDate(String publishDate) {
-        this.publishDate = publishDate;
-    }
+   /**
+    * @return The internal
+    */
+   public Boolean getInternal() {
+      return internal;
+   }
 
-    /**
-     * 
-     * @return
-     *     The yourShot
-     */
-    public Boolean getYourShot() {
-        return yourShot;
-    }
+   /**
+    * @param internal The internal
+    */
+   public void setInternal(Boolean internal) {
+      this.internal = internal;
+   }
 
-    /**
-     * 
-     * @param yourShot
-     *     The yourShot
-     */
-    public void setYourShot(Boolean yourShot) {
-        this.yourShot = yourShot;
-    }
+   /**
+    * @return The pageUrlPhotoOfTheDay
+    */
+   public String getPageUrlPhotoOfTheDay() {
+      return pageUrlPhotoOfTheDay;
+   }
 
-    /**
-     * 
-     * @return
-     *     The social
-     */
-    public Social getSocial() {
-        return social;
-    }
+   /**
+    * @param pageUrlPhotoOfTheDay The pageUrlPhotoOfTheDay
+    */
+   public void setPageUrlPhotoOfTheDay(String pageUrlPhotoOfTheDay) {
+      this.pageUrlPhotoOfTheDay = pageUrlPhotoOfTheDay;
+   }
 
-    /**
-     * 
-     * @param social
-     *     The social
-     */
-    public void setSocial(Social social) {
-        this.social = social;
-    }
+   /**
+    * @return The publishDate
+    */
+   public String getPublishDate() {
+      return publishDate;
+   }
 
-    /**
-     * 
-     * @return
-     *     The livefyre
-     */
-    public Livefyre getLivefyre() {
-        return livefyre;
-    }
-
-    /**
-     * 
-     * @param livefyre
-     *     The livefyre
-     */
-    public void setLivefyre(Livefyre livefyre) {
-        this.livefyre = livefyre;
-    }
-
-    /**
-     * 
-     * @return
-     *     The guid
-     */
-    public String getGuid() {
-        return guid;
-    }
-
-    /**
-     * 
-     * @param guid
-     *     The guid
-     */
-    public void setGuid(String guid) {
-        this.guid = guid;
-    }
-
-    /**
-     * 
-     * @return
-     *     The height
-     */
-    public Integer getHeight() {
-        return height;
-    }
-
-    /**
-     * 
-     * @param height
-     *     The height
-     */
-    public void setHeight(Integer height) {
-        this.height = height;
-    }
-
-    /**
-     * 
-     * @return
-     *     The width
-     */
-    public Integer getWidth() {
-        return width;
-    }
-
-    /**
-     * 
-     * @param width
-     *     The width
-     */
-    public void setWidth(Integer width) {
-        this.width = width;
-    }
+   /**
+    * @param publishDate The publishDate
+    */
+   public void setPublishDate(String publishDate) {
+      this.publishDate = publishDate;
+   }
 
 }

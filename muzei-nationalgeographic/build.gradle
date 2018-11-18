@@ -16,11 +16,20 @@
  */
 
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 
 dependencies {
-   implementation 'com.google.android.apps.muzei:muzei-api:2.0'
+   // kotlin
+   implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+   implementation 'androidx.core:core-ktx:1.0.1'
+   // muzei
+   implementation 'com.google.android.apps.muzei:muzei-api:3.0.0'
+   // retrofit
    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
+   implementation 'com.squareup.okhttp3:logging-interceptor:3.12.0'
+   // misc
+   implementation 'android.arch.work:work-runtime-ktx:1.0.0-alpha11'
 }
 
 android {
@@ -28,14 +37,13 @@ android {
 
    defaultConfig {
       applicationId 'de.msal.muzei.nationalgeographic'
-      minSdkVersion 17
-      //noinspection OldTargetApi
-      targetSdkVersion 25
-      buildToolsVersion '28.0.2'
+      minSdkVersion 19
+      targetSdkVersion 28
+      buildToolsVersion '28.0.3'
       // SemVer
-      def major = 1
-      def minor = 3
-      def patch = 1
+      def major = 2
+      def minor = 0
+      def patch = 0
       versionCode = (major * 10000) + (minor * 100) + patch
       versionName = "$major ($major.$minor.$patch)"
    }
@@ -86,5 +94,11 @@ android {
 
    lintOptions {
       disable 'InvalidPackage'
+   }
+
+   android {
+      sourceSets {
+         main.java.srcDirs += 'src/main/kotlin'
+      }
    }
 }

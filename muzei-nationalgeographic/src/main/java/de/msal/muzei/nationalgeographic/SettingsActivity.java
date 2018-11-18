@@ -18,22 +18,23 @@
 package de.msal.muzei.nationalgeographic;
 
 import android.app.Activity;
-import android.content.Intent;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import android.view.View;
+import com.google.android.apps.muzei.api.provider.ProviderContract;
 
 import java.util.Calendar;
 
 public class SettingsActivity extends Activity {
 
    private SharedPreferences prefs;
-   private boolean pref_cyclemode_start;
-   private String pref_intervalpicker_start;
+   private boolean currentMode;
 
    @Override
    protected void onCreate(Bundle savedInstanceState) {
@@ -48,10 +49,7 @@ public class SettingsActivity extends Activity {
       /* store the prefs values at the beginning to check in the end if a new update should be
          scheduled */
       prefs = PreferenceManager.getDefaultSharedPreferences(this);
-      this.pref_cyclemode_start = prefs.getBoolean(getString(R.string.pref_cyclemode_key), true);
-      this.pref_intervalpicker_start = prefs.getString(
-            getString(R.string.pref_intervalpicker_key),
-            getString(R.string.pref_intervalpicker_defaultvalue));
+      this.currentMode = prefs.getBoolean(getString(R.string.pref_randomMode_key), true);
    }
 
    public static class PrefsFragment extends PreferenceFragment {
@@ -93,17 +91,12 @@ public class SettingsActivity extends Activity {
 
    @Override
    public void onBackPressed() {
-      boolean shouldRefresh = false;
-      if (pref_cyclemode_start != prefs.getBoolean(getString(R.string.pref_cyclemode_key), true)
-            || !(pref_intervalpicker_start.equals(prefs.getString(
-            getString(R.string.pref_intervalpicker_key),
-            getString(R.string.pref_intervalpicker_defaultvalue))))) {
-         shouldRefresh = true;
+      if (currentMode != prefs.getBoolean(getString(R.string.pref_randomMode_key), true)) {
+         // switched mode (random/newest) -> delete all artwork, which also requests a new load
+         Context context = getApplicationContext();
+         Uri contentUri = ProviderContract.Artwork.getContentUri(context, NationalGeographicArtProvider.class);
+         context.getContentResolver().delete(contentUri, null, null);
       }
-
-      startService(new Intent(SettingsActivity.this, NationalGeographicArtSource.class)
-            .putExtra(NationalGeographicArtSource.EXTRA_SHOULD_REFRESH, shouldRefresh)
-            .setAction(NationalGeographicArtSource.ACTION_NEW_SETTINGS));
       super.onBackPressed();
    }
 }

@@ -19,7 +19,7 @@
 
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-   <style name="Theme.Muzei" parent="android:Theme.Holo">
+   <style name="Theme.Muzei" parent="android:Theme.DeviceDefault">
       <item name="android:windowBackground">@color/window_background</item>
       <item name="android:actionBarStyle">@style/Widget.Muzei.ActionBar</item>
       <item name="android:windowContentOverlay">@null</item>

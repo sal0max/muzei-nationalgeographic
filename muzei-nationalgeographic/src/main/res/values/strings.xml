@@ -46,7 +46,6 @@
    <string name="share_artwork_nothing_to_share">No photo to share.</string>
 
    <!-- photo description -->
-   <string name="photo_desc_title"><![CDATA[About <b>%1$s</b>]]></string>
    <string name="photo_desc_open">About this photo</string>
    <string name="photo_desc_nothing_to_show">No photo description available. - Please try again.</string>
 

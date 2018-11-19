@@ -36,7 +36,6 @@
       <Preference
             android:key="@string/pref_about_key"
             android:background="@null"
-            android:enabled="false"
             android:selectable="false"
             android:summary="@string/pref_about_summary"
             android:title="@string/app_name"/>

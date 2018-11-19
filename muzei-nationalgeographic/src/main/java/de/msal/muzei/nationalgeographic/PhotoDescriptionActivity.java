@@ -18,16 +18,15 @@
 package de.msal.muzei.nationalgeographic;
 
 import android.app.Activity;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-public class PhotoDescriptionActivity extends Activity implements Html.ImageGetter {
+public class PhotoDescriptionActivity extends Activity {
 
    public static final String EXTRA_TITLE = "de.msal.muzei.nationalgeographic.extra.TITLE";
    public static final String EXTRA_DESC = "de.msal.muzei.nationalgeographic.extra.DESC";
@@ -40,12 +39,12 @@ public class PhotoDescriptionActivity extends Activity implements Html.ImageGett
       String title = getIntent().getStringExtra(EXTRA_TITLE);
       String desc = getIntent().getStringExtra(EXTRA_DESC);
 
-      setTitle(Html.fromHtml(getString(R.string.photo_desc_title, title)));
+      setTitle(title);
 
       TextView textViewDesc = findViewById(R.id.activityPhotoDescription_textView);
       textViewDesc.setFitsSystemWindows(true);
       textViewDesc.setMovementMethod(LinkMovementMethod.getInstance());
-      textViewDesc.setText(Html.fromHtml(desc, this, null));
+      textViewDesc.setText(fromHtml(desc));
    }
 
    @Override
@@ -59,13 +58,12 @@ public class PhotoDescriptionActivity extends Activity implements Html.ImageGett
       }
    }
 
-   @Override
-   public Drawable getDrawable(String source) {
-      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-         return new ColorDrawable(getColor(android.R.color.transparent));
+   private static Spanned fromHtml(String html){
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+         return Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY);
       } else {
          //noinspection deprecation
-         return new ColorDrawable(getResources().getColor(android.R.color.transparent));
+         return Html.fromHtml(html);
       }
    }
 

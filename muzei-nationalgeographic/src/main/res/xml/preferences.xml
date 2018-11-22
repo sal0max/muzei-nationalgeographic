@@ -22,23 +22,23 @@
    <PreferenceCategory android:title="@string/prefs_header_general">
 
       <SwitchPreference
-            android:key="@string/pref_randomMode_key"
-            android:title="@string/pref_randomMode_title"
-            android:summaryOn="@string/pref_randomMode_summary__true"
-            android:summaryOff="@string/pref_randomMode_summary__false"
-            android:defaultValue="true"
-            android:persistent="true"/>
+         android:defaultValue="true"
+         android:key="@string/pref_randomMode_key"
+         android:persistent="true"
+         android:summaryOff="@string/pref_randomMode_summary__false"
+         android:summaryOn="@string/pref_randomMode_summary__true"
+         android:title="@string/pref_randomMode_title" />
    </PreferenceCategory>
 
    <PreferenceCategory
-         android:persistent="false"
-         android:title="@string/prefs_header_about">
+      android:persistent="false"
+      android:title="@string/prefs_header_about">
       <Preference
-            android:key="@string/pref_about_key"
-            android:background="@null"
-            android:selectable="false"
-            android:summary="@string/pref_about_summary"
-            android:title="@string/app_name"/>
+         android:background="@null"
+         android:key="@string/pref_about_key"
+         android:selectable="false"
+         android:summary="@string/pref_about_summary"
+         android:title="@string/app_name" />
    </PreferenceCategory>
 
 </PreferenceScreen>

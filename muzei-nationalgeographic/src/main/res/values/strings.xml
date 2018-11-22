@@ -21,7 +21,7 @@
 
    <!-- misc -->
    <string name="app_name">National Geographic for Muzei</string>
-   <string name="source_name">National Geographic Photo of the day</string>
+   <string name="source_name">National Geographic</string>
    <string name="source_description">The daily photo from the National Geographic Society</string>
 
    <!-- preferences -->

@@ -19,11 +19,11 @@
 
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
    xmlns:tools="http://schemas.android.com/tools"
+   android:id="@+id/activityPhotoDescription_textView"
    android:layout_width="match_parent"
    android:layout_height="match_parent"
-   android:id="@+id/activityPhotoDescription_textView"
-   android:textAppearance="?android:attr/textAppearanceMedium"
    android:layout_marginLeft="16dp"
    android:layout_marginRight="16dp"
-   tools:text="The Falcon 9 lifts off from Cape Canaveral in Florida, drawing a brilliant arc of light across a clear, dark sky. Your Shot photographer Grant Collins snapped this photo on “a cold March morning.” SpaceX, designer and manufacturer of the Falcon 9, was the first commercial company ever to visit the International Space Station."
-   android:scrollbars="vertical" />
+   android:scrollbars="vertical"
+   android:textAppearance="?android:attr/textAppearanceMedium"
+   tools:text="The Falcon 9 lifts off from Cape Canaveral in Florida, drawing a brilliant arc of light across a clear, dark sky. Your Shot photographer Grant Collins snapped this photo on “a cold March morning.” SpaceX, designer and manufacturer of the Falcon 9, was the first commercial company ever to visit the International Space Station." />

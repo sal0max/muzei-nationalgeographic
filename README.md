@@ -16,10 +16,11 @@ This is a plugin for the live wallpaper app _Muzei_ by Roman Nurik. It needs _Mu
 
 ## Screenshots
 
-<img src="art/screen_01.png" width="280" alt="screenshot 1">
-<img src="art/screen_02.png" width="280" alt="screenshot 2">
-<img src="art/screen_03.png" width="280" alt="screenshot 3">
-
+<div>
+   <img src="art/screen_01.png" width="280" alt="screenshot 1">
+   <img src="art/screen_02.png" width="280" alt="screenshot 2">
+   <img src="art/screen_03.png" width="280" alt="screenshot 3">
+</div>
 
 ## License
 

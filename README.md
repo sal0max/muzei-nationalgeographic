@@ -13,9 +13,11 @@ This is a plugin for the live wallpaper app _Muzei_ by Roman Nurik. It needs _Mu
 * Read the **entire photo description** of the current photo within the app.
 * **Share** your current photo with the world.
 
+
 ## Screenshots
 
-![Application screenshot01](art/screen_01.png) ![Application screenshot02](art/screen_02.png) ![Application screenshot03](art/screen_03.png)
+![Application screenshot01](art/screen_01.png?s=280) ![Application screenshot02](art/screen_02.png?s=280) ![Application screenshot03](art/screen_03.png?s=280)
+
 
 ## License
 

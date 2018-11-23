@@ -16,7 +16,9 @@ This is a plugin for the live wallpaper app _Muzei_ by Roman Nurik. It needs _Mu
 
 ## Screenshots
 
-![Application screenshot01](art/screen_01.png?s=280) ![Application screenshot02](art/screen_02.png?s=280) ![Application screenshot03](art/screen_03.png?s=280)
+<img src="art/screen_01.png" width="280" alt="screenshot 1">
+<img src="art/screen_02.png" width="280" alt="screenshot 2">
+<img src="art/screen_03.png" width="280" alt="screenshot 3">
 
 
 ## License

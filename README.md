@@ -11,13 +11,11 @@ This is a plugin for the live wallpaper app _Muzei_ by Roman Nurik. It needs _Mu
 
 * Toggle between having always the **newest** photo of the day and showing **random** wallpapers.
 * Read the **entire photo description** of the current photo within the app.
-* Set your **custom refresh interval**.
-* To reduce mobile data usage you can chose to only **update on Wi-Fi**.
 * **Share** your current photo with the world.
 
 ## Screenshots
 
-![Application screenshot](http://i.imgur.com/q1OrQ1L.png)
+![Application screenshot01](art/screen_01.png)! [Application screenshot02](art/screen_02.png)! [Application screenshot03](art/screen_03.png)
 
 ## License
 

@@ -16,7 +16,8 @@ class NationalGeographicArtProvider : MuzeiArtProvider() {
 
    override fun onLoadRequested(initial: Boolean) {
       val isRandom = PreferenceManager.getDefaultSharedPreferences(context).getBoolean(context?.getString(R.string.pref_randomMode_key), true)
-      NationalGeographicWorker.enqueueLoad(isRandom)
+      val shouldShowLegacy = PreferenceManager.getDefaultSharedPreferences(context).getBoolean(context?.getString(R.string.pref_showLegacy_key), false)
+      NationalGeographicWorker.enqueueLoad(isRandom, shouldShowLegacy)
    }
 
    override fun getCommands(artwork: Artwork) = listOf(

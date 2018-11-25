@@ -13,9 +13,11 @@ class NationalGeographicWorker(context: Context, workerParams: WorkerParameters)
 
    companion object {
       var isRandom = false
+      var shouldShowLegacy = false
 
-      internal fun enqueueLoad(random: Boolean) {
+      internal fun enqueueLoad(random: Boolean, shouldShowLegacy: Boolean) {
          this.isRandom = random
+         this.shouldShowLegacy = shouldShowLegacy
          WorkManager
                .getInstance()
                .enqueue(OneTimeWorkRequestBuilder<NationalGeographicWorker>()
@@ -32,8 +34,12 @@ class NationalGeographicWorker(context: Context, workerParams: WorkerParameters)
          if (isRandom) {
             // get a random photo of a month between January 2011 and now
             val cal = Calendar.getInstance(TimeZone.getTimeZone("America/New_York"))
-            val randYear = getRand(2011, cal.get(Calendar.YEAR))
-            val randMonth = if (randYear == cal.get(Calendar.YEAR)) getRand(1, cal.get(Calendar.MONTH) + 1) else getRand(1, 12)
+            val randYear = getRand(if (shouldShowLegacy) 2011 else 2016, cal.get(Calendar.YEAR))
+            val randMonth =
+                  if (randYear == cal.get(Calendar.YEAR))
+                     getRand(1, cal.get(Calendar.MONTH) + 1)
+                  else
+                     getRand(if (!shouldShowLegacy && randYear == 2016) 9 else 1, 12)
             NationalGeographicService.getPhotosOfTheDay(randYear, randMonth)?.random()
          } else {
             // get most recent photo
@@ -58,7 +64,7 @@ class NationalGeographicWorker(context: Context, workerParams: WorkerParameters)
          title = photo.title
          byline = photo.publishDate
          attribution = photo.photographer
-         persistentUri = photo.sizes?.get2048()?.toUri() ?: photo.imageUrl?.toUri()
+         persistentUri = photo.imageUrlLarge?.toUri() ?: photo.imageUrl?.toUri()
          token = photo.description
          webUri = photo.pageUrlPhotoOfTheDay?.toUri()
       }

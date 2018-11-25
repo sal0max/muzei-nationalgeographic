@@ -23,6 +23,8 @@ public class Item {
    @Expose
    private String imageUrl;
 
+   private String imageUrlLarge;
+
    @SerializedName("full-path-url")
    @Expose
    private String pageUrl;
@@ -34,10 +36,6 @@ public class Item {
    @SerializedName("credit")
    @Expose
    private String photographer;
-
-   @SerializedName("sizes")
-   @Expose
-   private Sizes sizes;
 
    @SerializedName("internal")
    @Expose
@@ -132,17 +130,17 @@ public class Item {
    }
 
    /**
-    * @return The sizes
+    * @return The imageUrlLarge
     */
-   public Sizes getSizes() {
-      return sizes;
+   public String getImageUrlLarge() {
+      return imageUrlLarge;
    }
 
    /**
-    * @param sizes The sizes
+    * @param imageUrlLarge The imageUrlLarge
     */
-   public void setSizes(Sizes sizes) {
-      this.sizes = sizes;
+   public void setImageUrlLarge(String imageUrlLarge) {
+      this.imageUrlLarge = imageUrlLarge;
    }
 
    /**

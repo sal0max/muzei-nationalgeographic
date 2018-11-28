@@ -21,6 +21,6 @@
 
     <!-- misc -->
     <string name="app_name">National Geographic for Muzei [DEBUG]</string>
-    <string name="source_description">DEBUG VERSION</string>
+    <string name="source_description">Debug Version</string>
 
 </resources>

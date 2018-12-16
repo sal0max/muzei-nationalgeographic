@@ -47,10 +47,8 @@
    <!-- share artwork -->
    <string name="share_artwork_message">My current Android wallpaper is \'%1$s\' - The photo of the day of %2$s on nationalgeographic.com. #Muzei #NationalGeographic\n\n%3$s</string>
    <string name="share_artwork_title">Share this photo</string>
-   <string name="share_artwork_nothing_to_share">No photo to share.</string>
 
    <!-- photo description -->
    <string name="photo_desc_open">About this photo</string>
-   <string name="photo_desc_nothing_to_show">No photo description available. - Please try again.</string>
 
 </resources>

@@ -20,8 +20,8 @@ package de.msal.muzei.nationalgeographic;
 import com.google.gson.GsonBuilder;
 import de.msal.muzei.nationalgeographic.model.Feed;
 import de.msal.muzei.nationalgeographic.model.Item;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -31,18 +31,18 @@ import retrofit2.http.Path;
 import java.io.IOException;
 import java.util.List;
 
-import static okhttp3.logging.HttpLoggingInterceptor.*;
-
 @SuppressWarnings("WeakerAccess")
 class NationalGeographicService {
 
    private static final String API_URL = "https://www.nationalgeographic.com";
 
    static Service getAdapter() {
-      HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-      logging.setLevel(Level.BASIC);
       OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-      httpClient.addInterceptor(logging);  // <-- this is the important line!
+
+      // add logging interceptor for debug builds
+      Interceptor httpLogger = HttpLogger.getLogger();
+      if (httpLogger != null)
+         httpClient.addInterceptor(httpLogger);
 
       Retrofit ngAdapter = new Retrofit.Builder()
             .baseUrl(API_URL)

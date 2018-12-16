@@ -68,10 +68,11 @@ class NationalGeographicWorker(context: Context, workerParams: WorkerParameters)
          token = photo.description
          webUri = photo.pageUrlPhotoOfTheDay?.toUri()
       }
+      val providerClient = ProviderContract.getProviderClient(applicationContext, NationalGeographicArtProvider::class.java)
       if (isRandom) {
-         ProviderContract.Artwork.addArtwork(applicationContext, NationalGeographicArtProvider::class.java, artwork)
+         providerClient.addArtwork(artwork)
       } else {
-         ProviderContract.Artwork.setArtwork(applicationContext, NationalGeographicArtProvider::class.java, artwork)
+         providerClient.setArtwork(artwork)
       }
       return Result.success()
    }

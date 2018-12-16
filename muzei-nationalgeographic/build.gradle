@@ -23,7 +23,7 @@ dependencies {
    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
    implementation 'androidx.core:core-ktx:1.0.1'
    // muzei
-   implementation 'com.google.android.apps.muzei:muzei-api:3.0.0'
+   implementation 'com.google.android.apps.muzei:muzei-api:3.1.0'
    // retrofit
    implementation 'com.squareup.retrofit2:retrofit:2.5.0'
    implementation 'com.squareup.retrofit2:converter-gson:2.5.0'

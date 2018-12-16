@@ -97,7 +97,7 @@ public class SettingsActivity extends Activity {
             || showLegacy != prefs.getBoolean(getString(R.string.pref_showLegacy_key), false)) {
          // switched mode (random/newest) -> delete all artwork, which also requests a new load
          Context context = getApplicationContext();
-         Uri contentUri = ProviderContract.Artwork.getContentUri(context, NationalGeographicArtProvider.class);
+         Uri contentUri = ProviderContract.getProviderClient(context, NationalGeographicArtProvider.class).getContentUri();
          context.getContentResolver().delete(contentUri, null, null);
       }
       super.onBackPressed();

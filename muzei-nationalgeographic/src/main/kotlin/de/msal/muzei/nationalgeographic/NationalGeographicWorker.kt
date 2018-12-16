@@ -47,16 +47,16 @@ class NationalGeographicWorker(context: Context, workerParams: WorkerParameters)
          }
       } catch (e: IOException) {
          Log.w(javaClass.simpleName, "Error reading API", e)
-         return Result.RETRY
+         return Result.retry()
       }
 
       // check if successful
       if (photo == null) {
          Log.w(javaClass.simpleName, "No photo returned from API.")
-         return Result.FAILURE
+         return Result.failure()
       } else if (photo.imageUrl == null) {
          Log.w(javaClass.simpleName, "Photo url is null (${photo.publishDate}).")
-         return Result.FAILURE
+         return Result.failure()
       }
 
       // success -> set Artwork
@@ -73,7 +73,7 @@ class NationalGeographicWorker(context: Context, workerParams: WorkerParameters)
       } else {
          ProviderContract.Artwork.setArtwork(applicationContext, NationalGeographicArtProvider::class.java, artwork)
       }
-      return Result.SUCCESS
+      return Result.success()
    }
 
    /**

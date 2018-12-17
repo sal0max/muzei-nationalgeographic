@@ -31,11 +31,11 @@ import retrofit2.http.Path;
 import java.io.IOException;
 import java.util.List;
 
-@SuppressWarnings("WeakerAccess")
 class NationalGeographicService {
 
    private static final String API_URL = "https://www.nationalgeographic.com";
 
+   @SuppressWarnings("WeakerAccess")
    static Service getAdapter() {
       OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 

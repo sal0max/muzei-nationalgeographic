@@ -2,5 +2,6 @@
 <resources>
    <color name="iconForeground">#fff</color>
    <color name="iconBackground">#ffd300</color>
+   <color name="windowForeground">#ccc</color>
    <color name="windowBackground">#111</color>
 </resources>

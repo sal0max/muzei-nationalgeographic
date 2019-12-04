@@ -17,21 +17,26 @@
 
 package de.msal.muzei.nationalgeographic;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceFragment;
-import android.preference.PreferenceManager;
+
+import androidx.fragment.app.FragmentActivity;
+import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.PreferenceManager;
+
 import android.view.MenuItem;
 import android.view.View;
+
 import com.google.android.apps.muzei.api.provider.ProviderContract;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Calendar;
 
-public class SettingsActivity extends Activity {
+public class SettingsActivity extends FragmentActivity {
 
    private SharedPreferences prefs;
    private boolean currentMode;
@@ -42,7 +47,7 @@ public class SettingsActivity extends Activity {
       super.onCreate(savedInstanceState);
 
       // Display the fragment as the main content.
-      getFragmentManager()
+      getSupportFragmentManager()
             .beginTransaction()
             .replace(android.R.id.content, new PrefsFragment())
             .commit();
@@ -54,27 +59,30 @@ public class SettingsActivity extends Activity {
       this.showLegacy = prefs.getBoolean(getString(R.string.pref_showLegacy_key), true);
    }
 
-   public static class PrefsFragment extends PreferenceFragment {
+   public static class PrefsFragment extends PreferenceFragmentCompat {
 
       @Override
-      public void onCreate(Bundle savedInstanceState) {
+      public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
          super.onCreate(savedInstanceState);
          addPreferencesFromResource(R.xml.preferences);
 
          /* show correct version name & copyright year */
          try {
-            findPreference(getString(R.string.pref_about_key))
-                  .setSummary(getString(R.string.pref_about_summary,
-                        getActivity().getPackageManager()
-                              .getPackageInfo(getActivity().getPackageName(), 0).versionName,
-                        Calendar.getInstance().get(Calendar.YEAR)));
+            //noinspection ConstantConditions
+            findPreference(getString(R.string.pref_about_key)).setSummary(
+                  getString(
+                        R.string.pref_about_summary,
+                        getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0).versionName,
+                        Calendar.getInstance().get(Calendar.YEAR)
+                  )
+            );
          } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
          }
       }
 
       @Override
-      public void onViewCreated(View view, Bundle savedInstanceState) {
+      public void onViewCreated(@NotNull View view, Bundle savedInstanceState) {
          super.onViewCreated(view, savedInstanceState);
          view.setFitsSystemWindows(true);
       }
@@ -82,13 +90,11 @@ public class SettingsActivity extends Activity {
 
    @Override
    public boolean onOptionsItemSelected(MenuItem item) {
-      switch (item.getItemId()) {
-         case android.R.id.home:
-            onBackPressed();
-            return true;
-         default:
-            return super.onOptionsItemSelected(item);
+      if (item.getItemId() == android.R.id.home) {
+         onBackPressed();
+         return true;
       }
+      return super.onOptionsItemSelected(item);
    }
 
    @Override
@@ -102,4 +108,5 @@ public class SettingsActivity extends Activity {
       }
       super.onBackPressed();
    }
+
 }

@@ -1,11 +1,10 @@
 package de.msal.muzei.nationalgeographic
 
 import android.content.Intent
-import android.preference.PreferenceManager
+import androidx.preference.PreferenceManager
 import com.google.android.apps.muzei.api.UserCommand
 import com.google.android.apps.muzei.api.provider.Artwork
 import com.google.android.apps.muzei.api.provider.MuzeiArtProvider
-
 
 class NationalGeographicArtProvider : MuzeiArtProvider() {
 

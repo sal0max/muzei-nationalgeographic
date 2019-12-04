@@ -21,7 +21,7 @@ apply plugin: 'kotlin-android'
 dependencies {
    // kotlin
    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-   implementation 'androidx.core:core-ktx:1.0.1'
+   implementation 'androidx.core:core-ktx:1.1.0'
    // muzei
    implementation 'com.google.android.apps.muzei:muzei-api:3.1.0'
    // retrofit
@@ -29,16 +29,17 @@ dependencies {
    implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
    debugImplementation 'com.squareup.okhttp3:logging-interceptor:3.13.1'
    // misc
-   implementation 'android.arch.work:work-runtime-ktx:1.0.0'
+   implementation 'android.arch.work:work-runtime-ktx:1.0.1'
+   implementation 'androidx.preference:preference-ktx:1.1.0'
 }
 
 android {
-   compileSdkVersion 28
+   compileSdkVersion 29
 
    defaultConfig {
       applicationId 'de.msal.muzei.nationalgeographic'
       minSdkVersion 21
-      targetSdkVersion 28
+      targetSdkVersion 29
       buildToolsVersion '28.0.3'
       // SemVer
       def major = 2
@@ -103,4 +104,10 @@ android {
          main.java.srcDirs += 'src/main/kotlin'
       }
    }
+
+   compileOptions {
+      sourceCompatibility JavaVersion.VERSION_1_8
+      targetCompatibility JavaVersion.VERSION_1_8
+   }
+
 }

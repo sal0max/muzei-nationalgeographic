@@ -18,10 +18,11 @@
 package de.msal.muzei.nationalgeographic;
 
 import com.google.gson.GsonBuilder;
+
 import de.msal.muzei.nationalgeographic.model.Feed;
 import de.msal.muzei.nationalgeographic.model.Item;
-import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -39,10 +40,10 @@ class NationalGeographicService {
    static Service getAdapter() {
       OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 
-      // add logging interceptor for debug builds
-      Interceptor httpLogger = HttpLogger.getLogger();
-      if (httpLogger != null)
-         httpClient.addInterceptor(httpLogger);
+      // add logging interceptor only for debug builds
+      HttpLoggingInterceptor httpLogger = new HttpLoggingInterceptor();
+      httpLogger.setLevel(BuildConfig.DEBUG ? HttpLoggingInterceptor.Level.BASIC : HttpLoggingInterceptor.Level.NONE);
+      httpClient.addInterceptor(httpLogger);
 
       Retrofit ngAdapter = new Retrofit.Builder()
             .baseUrl(API_URL)

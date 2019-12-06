@@ -54,19 +54,19 @@ class NationalGeographicWorker(context: Context, workerParams: WorkerParameters)
       if (photo == null) {
          Log.w(javaClass.simpleName, "No photo returned from API.")
          return Result.failure()
-      } else if (photo.imageUrl == null) {
+      } else if (photo.image?.renditions?.last()?.uri == null) {
          Log.w(javaClass.simpleName, "Photo url is null (${photo.publishDate}).")
          return Result.failure()
       }
 
       // success -> set Artwork
       val artwork = Artwork().apply {
-         title = photo.title
+         title = photo.image.title
          byline = photo.publishDate
-         attribution = photo.photographer
-         persistentUri = photo.imageUrlLarge?.toUri() ?: photo.imageUrl?.toUri()
-         token = photo.description
-         webUri = photo.pageUrlPhotoOfTheDay?.toUri()
+         attribution = photo.image.credit
+         persistentUri = photo.image.renditions.last().uri.toUri()
+         token = photo.image.caption ?: photo.image.renditions.last().uri
+         webUri = photo.pageUrl?.toUri()
       }
       val providerClient = ProviderContract.getProviderClient(applicationContext, NationalGeographicArtProvider::class.java)
       if (isRandom) {

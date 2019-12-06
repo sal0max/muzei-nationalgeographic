@@ -17,7 +17,6 @@
 
 package de.msal.muzei.nationalgeographic;
 
-import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
@@ -26,7 +25,9 @@ import android.text.method.LinkMovementMethod;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-public class PhotoDescriptionActivity extends Activity {
+import androidx.appcompat.app.AppCompatActivity;
+
+public class PhotoDescriptionActivity extends AppCompatActivity {
 
    public static final String EXTRA_TITLE = "de.msal.muzei.nationalgeographic.extra.TITLE";
    public static final String EXTRA_DESC = "de.msal.muzei.nationalgeographic.extra.DESC";
@@ -56,7 +57,7 @@ public class PhotoDescriptionActivity extends Activity {
       return super.onOptionsItemSelected(item);
    }
 
-   private static Spanned fromHtml(String html){
+   private static Spanned fromHtml(String html) {
       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
          return Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY);
       } else {

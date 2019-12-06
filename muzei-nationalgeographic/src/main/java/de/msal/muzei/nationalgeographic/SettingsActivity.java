@@ -23,7 +23,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 
-import androidx.fragment.app.FragmentActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 
@@ -36,7 +36,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Calendar;
 
-public class SettingsActivity extends FragmentActivity {
+public class SettingsActivity extends AppCompatActivity {
 
    private SharedPreferences prefs;
    private boolean currentMode;

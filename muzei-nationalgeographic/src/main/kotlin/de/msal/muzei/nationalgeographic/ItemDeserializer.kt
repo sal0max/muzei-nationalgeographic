@@ -1,5 +1,6 @@
 package de.msal.muzei.nationalgeographic
 
+import android.os.Build
 import android.text.Html
 import com.google.gson.*
 import de.msal.muzei.nationalgeographic.model.Item
@@ -13,7 +14,8 @@ class ItemDeserializer : JsonDeserializer<Item> {
       val item = Gson().fromJson(json, Item::class.java)
 
       // clean up photographer info
-      item.image?.credit = stripHtml(item.image?.credit)
+      item.image?.credit = item.image?.credit
+            ?.stripHtml()
             ?.replace("Photograph by ", "")
             ?.replace(", National Geographic Your Shot", "")
             ?.replace(", National Geographic", "")
@@ -23,17 +25,17 @@ class ItemDeserializer : JsonDeserializer<Item> {
       return item
    }
 
-   private fun stripHtml(html: String?): String? {
+   private fun String?.stripHtml(): String? {
       return when {
-         html == null -> {
-            html
+         this == null -> {
+            this
          }
-         android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N -> {
-            Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY).toString().trim { it <= ' ' }
+         Build.VERSION.SDK_INT >= Build.VERSION_CODES.N -> {
+            Html.fromHtml(this, Html.FROM_HTML_MODE_LEGACY).toString()
          }
          else -> {
             @Suppress("DEPRECATION")
-            Html.fromHtml(html).toString().trim { it <= ' ' }
+            Html.fromHtml(this).toString()
          }
       }
    }

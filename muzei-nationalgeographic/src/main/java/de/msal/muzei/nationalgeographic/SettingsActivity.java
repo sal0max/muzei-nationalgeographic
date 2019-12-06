@@ -63,7 +63,6 @@ public class SettingsActivity extends FragmentActivity {
 
       @Override
       public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-         super.onCreate(savedInstanceState);
          addPreferencesFromResource(R.xml.preferences);
 
          /* show correct version name & copyright year */

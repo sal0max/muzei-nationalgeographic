@@ -23,7 +23,7 @@ dependencies {
    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
    implementation 'androidx.core:core-ktx:1.1.0'
    // muzei
-   implementation 'com.google.android.apps.muzei:muzei-api:3.2.0'
+   implementation 'com.google.android.apps.muzei:muzei-api:3.4.0'
    // retrofit
    implementation 'com.squareup.retrofit2:retrofit:2.6.2'
    implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
@@ -34,13 +34,12 @@ dependencies {
 }
 
 android {
-   compileSdkVersion 29
+   compileSdkVersion 30
 
    defaultConfig {
       applicationId 'de.msal.muzei.nationalgeographic'
       minSdkVersion 21
       targetSdkVersion 29
-      buildToolsVersion '28.0.3'
       // SemVer
       def major = 2
       def minor = 2

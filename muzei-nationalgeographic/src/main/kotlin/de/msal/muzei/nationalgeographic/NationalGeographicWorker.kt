@@ -60,15 +60,14 @@ class NationalGeographicWorker(context: Context, workerParams: WorkerParameters)
       }
 
       // success -> set Artwork
-      val artwork = Artwork().apply {
-         title = photo.image.title
-         byline = photo.publishDate
-         attribution = photo.image.credit
-         persistentUri = photo.image.renditions.last().uri.toUri()
-         token = photo.image.caption ?: photo.image.renditions.last().uri
-         webUri = photo.pageUrl?.toUri()
-      }
-      val providerClient = ProviderContract.getProviderClient(applicationContext, NationalGeographicArtProvider::class.java)
+      val artwork = Artwork(
+         title = photo.image.title,
+         byline = photo.publishDate,
+         attribution = photo.image.credit,
+         persistentUri = photo.image.renditions.last().uri.toUri(),
+         token = photo.image.caption ?: photo.image.renditions.last().uri,
+         webUri = photo.pageUrl?.toUri())
+      val providerClient = ProviderContract.getProviderClient<NationalGeographicArtProvider>(applicationContext)
       if (isRandom) {
          providerClient.addArtwork(artwork)
       } else {

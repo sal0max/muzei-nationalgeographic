@@ -16,11 +16,12 @@ class ItemDeserializer : JsonDeserializer<Item> {
       // clean up photographer info
       item.image?.credit = item.image?.credit
             ?.stripHtml()
-            ?.replace("Photograph by ", "")
-            ?.replace(", National Geographic Your Shot", "")
-            ?.replace(", National Geographic", "")
-            ?.replace(", Your Shot", "")
-            ?.replace(", My Shot", "")
+            ?.replace("Photograph by ", "", true)
+            ?.replace(", National Geographic Your Shot", "", true)
+            ?.replace(", National Geographic", "", true)
+            ?.replace(", Your Shot", "", true)
+            ?.replace(", My Shot", "", true)
+            ?.replace(", nat geo image collection", "", true)
             ?.trim()
       return item
    }

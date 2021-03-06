@@ -34,7 +34,7 @@ import java.util.List;
 
 class NationalGeographicService {
 
-   private static final String API_URL = "https://www.nationalgeographic.com";
+   private static final String API_URL = "https://www.nationalgeographic.co.uk";
 
    @SuppressWarnings("WeakerAccess")
    static Service getAdapter() {
@@ -49,7 +49,7 @@ class NationalGeographicService {
             .baseUrl(API_URL)
             .addConverterFactory(GsonConverterFactory.create(
                   new GsonBuilder()
-                        .registerTypeAdapter(Item.class, new ItemDeserializer())
+                        .registerTypeAdapter(Feed.class, new FeedDeserializer())
                         .create()))
             .client(httpClient.build())
             .build();
@@ -59,25 +59,25 @@ class NationalGeographicService {
 
    interface Service {
 
-      @GET("/photography/photo-of-the-day/_jcr_content/.gallery.json")
+      @GET("/page-data/photo-of-day/page-data.json")
       Call<Feed> getPhotoOfTheDayFeed();
 
-      @GET("/photography/photo-of-the-day/_jcr_content/.gallery.{year}-{month}.json")
+      @GET("/page-data/photo-of-the-day/{year}/{month}/page-data.json")
       Call<Feed> getPhotoOfTheDayFeed(
             @Path("year") int year,
-            @Path("month") int month
+            @Path("month") String month
       );
    }
 
-   public static List<Item> getPhotosOfTheDay() throws IOException {
+   public static Item getPhotoOfTheDay() throws IOException {
       Feed body = getAdapter().getPhotoOfTheDayFeed().execute().body();
       if (body != null)
-         return body.getItems();
+         return body.getItems().get(0);
       else
          throw new IOException("Response was null.");
    }
 
-   public static List<Item> getPhotosOfTheDay(int year, int month) throws IOException {
+   public static List<Item> getPhotosOfTheDay(int year, String month) throws IOException {
       Feed body = getAdapter().getPhotoOfTheDayFeed(year, month).execute().body();
       if (body != null)
          return body.getItems();

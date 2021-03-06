@@ -7,17 +7,16 @@ import androidx.work.*
 import com.google.android.apps.muzei.api.provider.Artwork
 import com.google.android.apps.muzei.api.provider.ProviderContract
 import java.io.IOException
+import java.text.SimpleDateFormat
 import java.util.*
 
 class NationalGeographicWorker(context: Context, workerParams: WorkerParameters) : Worker(context, workerParams) {
 
    companion object {
       var isRandom = false
-      var shouldShowLegacy = false
 
-      internal fun enqueueLoad(random: Boolean, shouldShowLegacy: Boolean) {
+      internal fun enqueueLoad(random: Boolean) {
          this.isRandom = random
-         this.shouldShowLegacy = shouldShowLegacy
          WorkManager
                .getInstance()
                .enqueue(OneTimeWorkRequestBuilder<NationalGeographicWorker>()
@@ -32,18 +31,18 @@ class NationalGeographicWorker(context: Context, workerParams: WorkerParameters)
       // fetch photo
       val photo = try {
          if (isRandom) {
-            // get a random photo of a month between January 2011 and now
-            val cal = Calendar.getInstance(TimeZone.getTimeZone("America/New_York"))
-            val randYear = getRand(if (shouldShowLegacy) 2011 else 2016, cal.get(Calendar.YEAR))
+            // get a random photo of a month between October 2017 and now
+            val now = Calendar.getInstance(TimeZone.getTimeZone("Europe/London"))
+            val randYear = getRand(2017, now.get(Calendar.YEAR))
             val randMonth =
-                  if (randYear == cal.get(Calendar.YEAR))
-                     getRand(1, cal.get(Calendar.MONTH) + 1)
+                  if (randYear == now.get(Calendar.YEAR))
+                     getRand(1, now.get(Calendar.MONTH) + 1).month()
                   else
-                     getRand(if (!shouldShowLegacy && randYear == 2016) 9 else 1, 12)
+                     getRand(if (randYear == 2017) 10 else 1, 12).month()
             NationalGeographicService.getPhotosOfTheDay(randYear, randMonth)?.random()
          } else {
             // get most recent photo
-            NationalGeographicService.getPhotosOfTheDay()?.first()
+            NationalGeographicService.getPhotoOfTheDay()
          }
       } catch (e: IOException) {
          Log.w(javaClass.simpleName, "Error reading API", e)
@@ -54,19 +53,25 @@ class NationalGeographicWorker(context: Context, workerParams: WorkerParameters)
       if (photo == null) {
          Log.w(javaClass.simpleName, "No photo returned from API.")
          return Result.failure()
-      } else if (photo.image?.renditions?.last()?.uri == null) {
-         Log.w(javaClass.simpleName, "Photo url is null (${photo.publishDate}).")
+      } else if (photo.image?.url == null) {
+         Log.w(javaClass.simpleName, "Photo url is null (photo id: ${photo.uuid}).")
          return Result.failure()
       }
 
       // success -> set Artwork
       val artwork = Artwork(
-         title = photo.image.title,
-         byline = photo.publishDate,
-         attribution = photo.image.credit,
-         persistentUri = photo.image.renditions.last().uri.toUri(),
-         token = photo.image.caption ?: photo.image.renditions.last().uri,
-         webUri = photo.pageUrl?.toUri())
+            title = photo.image.title, // title
+            byline = photo.date?.let { SimpleDateFormat.getDateInstance().format(it.time) ?: "" }, // date
+            attribution = photo.credit, // photographer
+            persistentUri = photo.image.url?.toUri(), // image url
+            token = photo.caption, // caption as token, as it should normally be unique + the token is used to get the description in PhotoDescriptionActivity
+            webUri = ("https://www.nationalgeographic.co.uk/photo-of-the-day/"
+                  + photo.date?.get(Calendar.YEAR) // 2020
+                  + "/"
+                  + photo.date?.get(Calendar.MONTH)?.plus(1)?.month() // october
+                  + "?image="
+                  + photo.image.url?.substringAfter("/public/")?.substringBeforeLast(".")).toUri() // pod-14-03-2020-503080
+      )
       val providerClient = ProviderContract.getProviderClient<NationalGeographicArtProvider>(applicationContext)
       if (isRandom) {
          providerClient.addArtwork(artwork)
@@ -84,6 +89,24 @@ class NationalGeographicWorker(context: Context, workerParams: WorkerParameters)
    private fun getRand(min: Int, max: Int): Int {
       val rand = Random()
       return rand.nextInt(max - min + 1) + min
+   }
+
+   private fun Int?.month() : String? {
+      return when {
+         this == 1 -> "january"
+         this == 2 -> "february"
+         this == 3 -> "march"
+         this == 4 -> "april"
+         this == 5 -> "may"
+         this == 6 -> "june"
+         this == 7 -> "july"
+         this == 8 -> "august"
+         this == 9 -> "september"
+         this == 10 -> "october"
+         this == 11 -> "november"
+         this == 12 -> "december"
+         else -> null
+      }
    }
 
 }

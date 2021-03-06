@@ -40,7 +40,6 @@ public class SettingsActivity extends AppCompatActivity {
 
    private SharedPreferences prefs;
    private boolean currentMode;
-   private boolean showLegacy;
 
    @Override
    protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +55,6 @@ public class SettingsActivity extends AppCompatActivity {
          scheduled */
       prefs = PreferenceManager.getDefaultSharedPreferences(this);
       this.currentMode = prefs.getBoolean(getString(R.string.pref_randomMode_key), true);
-      this.showLegacy = prefs.getBoolean(getString(R.string.pref_showLegacy_key), true);
    }
 
    public static class PrefsFragment extends PreferenceFragmentCompat {
@@ -98,8 +96,7 @@ public class SettingsActivity extends AppCompatActivity {
 
    @Override
    public void onBackPressed() {
-      if (currentMode != prefs.getBoolean(getString(R.string.pref_randomMode_key), true)
-            || showLegacy != prefs.getBoolean(getString(R.string.pref_showLegacy_key), false)) {
+      if (currentMode != prefs.getBoolean(getString(R.string.pref_randomMode_key), true)) {
          // switched mode (random/newest) -> delete all artwork, which also requests a new load
          Context context = getApplicationContext();
          Uri contentUri = ProviderContract.getProviderClient(context, NationalGeographicArtProvider.class).getContentUri();

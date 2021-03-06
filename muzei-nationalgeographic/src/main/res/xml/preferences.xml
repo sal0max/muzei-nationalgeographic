@@ -29,14 +29,6 @@
          android:summaryOn="@string/pref_randomMode_summary__true"
          android:title="@string/pref_randomMode_title" />
 
-      <SwitchPreference
-         android:defaultValue="false"
-         android:dependency="@string/pref_randomMode_key"
-         android:key="@string/pref_showLegacy_key"
-         android:persistent="true"
-         android:summary="@string/pref_showLegacy_summary"
-         android:title="@string/pref_showLegacy_title" />
-
       <Preference
          android:persistent="false"
          android:summary="@string/pref_interval_summary"

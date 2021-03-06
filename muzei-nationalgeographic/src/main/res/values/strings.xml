@@ -34,10 +34,6 @@
    <string name="pref_randomMode_summary__true">Show random photos of the day.</string>
    <string name="pref_randomMode_summary__false">Show always the most recent photo of the day.</string>
 
-   <string name="pref_showLegacy_key" translatable="false">pref_legacy</string>
-   <string name="pref_showLegacy_title">Also show legacy photos</string>
-   <string name="pref_showLegacy_summary">Legacy photos are those published before September 2016. They usually are provided only in small resolution and hence lack in image quality.</string>
-
    <string name="pref_interval_title">Want to change the update interval?</string>
    <string name="pref_interval_summary">This option is now included in Muzei itself:\n
       1) Open Muzei and select the \"Sources\" tab at the bottom.\n
@@ -52,7 +48,7 @@
 
    <!-- share artwork -->
    <string name="share_artwork_title">Share this photo</string>
-   <string name="share_artwork_message">My current Android wallpaper is \'%1$s\' - The photo of the day of %2$s on nationalgeographic.com. #Muzei #NationalGeographic\n\n%3$s</string>
+   <string name="share_artwork_message">My current Android wallpaper is \'%1$s\' - The photo of the day of %2$s on nationalgeographic.co.uk. #Muzei #NationalGeographic\n\n%3$s</string>
 
    <!-- photo description -->
    <string name="photo_desc_open">About this photo</string>

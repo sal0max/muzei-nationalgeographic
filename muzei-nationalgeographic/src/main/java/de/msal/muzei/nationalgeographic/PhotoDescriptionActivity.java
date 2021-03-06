@@ -57,11 +57,11 @@ public class PhotoDescriptionActivity extends AppCompatActivity {
       return super.onOptionsItemSelected(item);
    }
 
+   @SuppressWarnings("deprecation")
    private static Spanned fromHtml(String html) {
       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
          return Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY);
       } else {
-         //noinspection deprecation
          return Html.fromHtml(html);
       }
    }

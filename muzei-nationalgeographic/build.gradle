@@ -32,6 +32,8 @@ dependencies {
    implementation 'android.arch.work:work-runtime-ktx:1.0.1'
    implementation 'androidx.preference:preference-ktx:1.1.1'
    implementation 'com.github.sisyphsu:dateparser:1.0.7'
+   // test
+   testImplementation 'junit:junit:4.13.2'
 }
 
 android {
@@ -110,6 +112,10 @@ android {
       sourceSets {
          main.java.srcDirs += 'src/main/kotlin'
       }
+   }
+
+   testOptions {
+      unitTests.returnDefaultValues = true
    }
 
 }

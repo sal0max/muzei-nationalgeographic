@@ -52,10 +52,11 @@ android {
       targetSdkVersion 30
       // SemVer
       def major = 2
-      def minor = 2
-      def patch = 1
+      def minor = 3
+      def patch = 0
       versionCode = (major * 10000) + (minor * 100) + patch
       versionName = "$major ($major.$minor.$patch)"
+      archivesBaseName = "$applicationId-v$versionCode"
       //
       vectorDrawables.useSupportLibrary = true
    }

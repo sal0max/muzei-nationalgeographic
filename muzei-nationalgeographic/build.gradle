@@ -108,12 +108,6 @@ android {
       disable 'InvalidPackage'
    }
 
-   android {
-      sourceSets {
-         main.java.srcDirs += 'src/main/kotlin'
-      }
-   }
-
    testOptions {
       unitTests.returnDefaultValues = true
    }

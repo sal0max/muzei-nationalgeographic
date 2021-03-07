@@ -61,16 +61,18 @@ class NationalGeographicWorker(context: Context, workerParams: WorkerParameters)
       // success -> set Artwork
       val artwork = Artwork(
             title = photo.image.title, // title
-            byline = photo.date?.let { SimpleDateFormat.getDateInstance().format(it.time) ?: "" }, // date
+            byline = photo.date?.let { SimpleDateFormat.getDateInstance().format(it.time)}, // date
             attribution = photo.credit, // photographer
             persistentUri = photo.image.url?.toUri(), // image url
             token = photo.caption, // caption as token, as it should normally be unique + the token is used to get the description in PhotoDescriptionActivity
-            webUri = ("https://www.nationalgeographic.co.uk/photo-of-the-day/"
-                  + photo.date?.get(Calendar.YEAR) // 2020
-                  + "/"
-                  + photo.date?.get(Calendar.MONTH)?.plus(1)?.month() // october
-                  + "?image="
-                  + photo.image.url?.substringAfter("/public/")?.substringBeforeLast(".")).toUri() // pod-14-03-2020-503080
+            webUri = photo.date?.let {
+               ("https://www.nationalgeographic.co.uk/photo-of-the-day/"
+                     + photo.date?.get(Calendar.YEAR) // 2020
+                     + "/"
+                     + photo.date?.get(Calendar.MONTH)?.plus(1)?.month() // october
+                     + "?image="
+                     + photo.image.url?.substringAfter("/public/")?.substringBeforeLast(".")).toUri() // pod-14-03-2020-503080
+            }
       )
       val providerClient = ProviderContract.getProviderClient<NationalGeographicArtProvider>(applicationContext)
       if (isRandom) {

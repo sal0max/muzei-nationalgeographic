@@ -5,7 +5,10 @@ import com.google.gson.*
 import com.google.gson.JsonParseException
 import de.msal.muzei.nationalgeographic.model.Image
 import de.msal.muzei.nationalgeographic.model.Item
+import java.lang.Exception
 import java.lang.reflect.Type
+import java.time.format.DateTimeParseException
+import java.util.*
 
 /**
  * "Flattens" the Json as the relevant data is nested and also cleans up some fields
@@ -23,24 +26,31 @@ class ItemDeserializer : JsonDeserializer<Item> {
       item.credit = item.credit
             ?.stripHtml()
             ?.extractName()
+            ?.capitalizeWords()
       item.contributor = item.contributor
             ?.stripHtml()
             ?.extractName()
+            ?.capitalizeWords()
       // clean up description
       item.caption = item.caption
             ?.stripHtml()
 
       // add date
-      item.entityLabel?.replace("pod-", "")?.let {
-         item.date = DateParserUtils.parseCalendar(it)
-      }
+      item.entityLabel?.replace("pod-", "")
+            ?.replace("PoD ", "")
+            ?.replace(".jpg", "")
+            ?.let {
+               try {
+                  item.date = DateParserUtils.parseCalendar(it)
+               } catch (ignored: Exception) { }
+            }
 
       return item
    }
 
    private fun String?.stripHtml(): String? {
-      // don't need full html escaping. just remove the <p> tags as nothing else seems to exist
-      return this?.replace("<p>", "")?.replace("</p>", "")?.trim()
+      // don't need full html escaping. try it with regex instead
+      return this?.replace("<.*?>".toRegex() , "")?.trim()
       //return when {
       //   this != null -> Html.escapeHtml(this)
       //   else -> this
@@ -57,6 +67,10 @@ class ItemDeserializer : JsonDeserializer<Item> {
             ?.replace(", My Shot", "", true)
             ?.replace(", nat geo image collection", "", true)
             ?.trim()
+   }
+
+   private fun String.capitalizeWords(): String {
+         return split(" ").joinToString(" ") { it.toLowerCase(Locale.ROOT).capitalize(Locale.ROOT) }
    }
 
 }

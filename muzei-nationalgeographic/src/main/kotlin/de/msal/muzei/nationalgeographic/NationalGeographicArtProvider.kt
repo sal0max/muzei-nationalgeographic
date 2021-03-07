@@ -77,8 +77,8 @@ class NationalGeographicArtProvider : MuzeiArtProvider() {
       type = "text/plain"
       putExtra(Intent.EXTRA_TEXT, context.getString(R.string.share_artwork_message,
               artwork.title,
-              artwork.byline,
-              artwork.webUri))
+              artwork.byline ?: "?",
+              artwork.webUri ?: ""))
    }, context.getString(R.string.share_artwork_title))
 
    /**

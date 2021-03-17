@@ -1,0 +1,6 @@
+The National Geographic photo of the day for Muzei.
+This is a plugin for the live wallpaper app Muzei by Roman Nurik. It needs Muzei to be used.
+
+* Toggle between having always the newest photo of the day and showing random wallpapers.
+* Read the entire photo description of the current photo within the app.
+* Share your current photo with the world.

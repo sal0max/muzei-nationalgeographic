@@ -1,0 +1,3 @@
+* Make the App work again: switch from nationalgeographic.com to nationalgeographic.co.uk
+* Implemented some tests to make it easier in the future to detect api changes
+* Minor improvements

@@ -1,5 +1,10 @@
 # Changelog
 
+## v2.4.0
+* The image description is now available with a click on the artwork title. Removed the not-working link to the website for it.
+* The "Share" intent now doesn't link to the website any more, but directly to the image resource.
+* Some small improvements regarding stability and reliability.
+
 ## v2.3.0
 * Make the App work again: switch from nationalgeographic.com to nationalgeographic.co.uk
 * Implemented some tests to make it easier in the future to detect api changes

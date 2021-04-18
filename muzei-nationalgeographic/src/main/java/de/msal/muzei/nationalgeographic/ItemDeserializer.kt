@@ -39,12 +39,17 @@ class ItemDeserializer : JsonDeserializer<Item> {
             ?.stripHtml()
             ?.trim()
 
-      // add date
-      item.entityLabel?.replace("pod-", "")
-            ?.replace("PoD ", "")
-            ?.replace(".jpg", "")
+      // try to get the date - not always possible as not always set
+      item.entityLabel
+            ?.replace("pod-", "", true)
+            ?.replace("pod ", "", true)
+            ?.substringBefore(".") // remove .jpg
             ?.let {
                try {
+                  // parse
+                  DateParserUtils.preferMonthFirst(false)
+                  // allow date fields be separated by dash
+                  DateParserUtils.registerStandardRule("(?<dayOrMonth>\\d{1,2}-\\d{1,2})-(?<year>\\d{2})$")
                   item.date = DateParserUtils.parseCalendar(it)
                } catch (ignored: Exception) { }
             }

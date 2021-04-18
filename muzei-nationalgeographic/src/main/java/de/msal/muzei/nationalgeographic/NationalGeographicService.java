@@ -30,6 +30,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Path;
 
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.List;
 
 class NationalGeographicService {
@@ -79,8 +80,15 @@ class NationalGeographicService {
 
    public static List<Item> getPhotosOfTheDay(int year, String month) throws IOException {
       Feed body = getAdapter().getPhotoOfTheDayFeed(year, month).execute().body();
-      if (body != null)
-         return body.getItems();
+      if (body != null) {
+         List<Item> items = body.getItems();
+         // sometimes the year isn't specified for older dates. correct it here
+         for (Item item : items) {
+            if (item.getDate() != null && item.getDate().get(Calendar.YEAR) == 0)
+               item.getDate().set(Calendar.YEAR, year);
+         }
+         return items;
+      }
       else
          throw new IOException("Response was null.");
    }

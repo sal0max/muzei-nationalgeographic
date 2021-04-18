@@ -55,10 +55,6 @@ class ItemDeserializer : JsonDeserializer<Item> {
    private fun String?.stripHtml(): String? {
       // don't need full html escaping. try it with regex instead
       return this?.replace("<.*?>".toRegex() , "")?.trim()
-      //return when {
-      //   this != null -> Html.escapeHtml(this)
-      //   else -> this
-      //}
    }
 
    private fun String?.extractName(): String? {

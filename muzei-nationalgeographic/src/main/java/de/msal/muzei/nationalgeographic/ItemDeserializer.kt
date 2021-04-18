@@ -67,6 +67,7 @@ class ItemDeserializer : JsonDeserializer<Item> {
             ?.replace("Photograph by ", "", true)
             ?.replace(", National Geographic Your Shot", "", true)
             ?.replace(", National Geographic Image Collection", "", true)
+            ?.replace("/ National Geographic Image Collection", "", true)
             ?.replace(", National Geographic", "", true)
             ?.replace(", Your Shot", "", true)
             ?.replace(", My Shot", "", true)

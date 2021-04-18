@@ -21,18 +21,23 @@ class ItemDeserializer : JsonDeserializer<Item> {
             .create()
             .fromJson(json.asJsonObject["entity"], Item::class.java)
 
-      // clean up photographer info
+      // clean up the info
+      item.image?.title = item.image?.title
+            ?.trim()
       item.credit = item.credit
             ?.stripHtml()
             ?.extractName()
             ?.capitalizeWords()
+            ?.trim()
       item.contributor = item.contributor
             ?.stripHtml()
             ?.extractName()
             ?.capitalizeWords()
+            ?.trim()
       // clean up description
       item.caption = item.caption
             ?.stripHtml()
+            ?.trim()
 
       // add date
       item.entityLabel?.replace("pod-", "")

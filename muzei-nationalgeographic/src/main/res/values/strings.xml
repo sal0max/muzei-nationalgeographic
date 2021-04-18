@@ -50,7 +50,4 @@
    <string name="share_artwork_title">Share this photo</string>
    <string name="share_artwork_message">My current Android wallpaper is \'%1$s\' - The photo of the day of %2$s on nationalgeographic.co.uk. #Muzei #NationalGeographic\n\n%3$s</string>
 
-   <!-- photo description -->
-   <string name="photo_desc_open">About this photo</string>
-
 </resources>

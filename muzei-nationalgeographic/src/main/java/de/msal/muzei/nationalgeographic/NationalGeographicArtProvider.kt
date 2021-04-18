@@ -9,11 +9,11 @@ import androidx.core.graphics.drawable.IconCompat
 import androidx.preference.PreferenceManager
 import com.google.android.apps.muzei.api.provider.Artwork
 import com.google.android.apps.muzei.api.provider.MuzeiArtProvider
+import kotlin.random.Random
 
 class NationalGeographicArtProvider : MuzeiArtProvider() {
 
    companion object {
-      private const val USER_COMMAND_ID_PHOTO_DESCRIPTION = 1
       private const val USER_COMMAND_ID_SHARE = 2
    }
 
@@ -27,16 +27,12 @@ class NationalGeographicArtProvider : MuzeiArtProvider() {
       val context = context ?: return super.getCommandActions(artwork)
       return listOf(
               createRemoteActionCompat(context, artwork,
-                      ::createPhotoDescriptionIntent, R.string.photo_desc_open),
-              createRemoteActionCompat(context, artwork,
                       ::createShareIntent, R.string.share_artwork_title))
    }
 
    /* kept for backward compatibility with Muzei 3.3 */
-   @Suppress("OverridingDeprecatedMember", "DEPRECATION")
+   @Suppress("OverridingDeprecatedMember", "DEPRECATION", "SameParameterValue")
    override fun getCommands(artwork: Artwork) = listOf(
-           com.google.android.apps.muzei.api.UserCommand(USER_COMMAND_ID_PHOTO_DESCRIPTION,
-                   context?.getString(R.string.photo_desc_open)),
            com.google.android.apps.muzei.api.UserCommand(USER_COMMAND_ID_SHARE,
                    context?.getString(R.string.share_artwork_title)))
 
@@ -45,13 +41,6 @@ class NationalGeographicArtProvider : MuzeiArtProvider() {
    override fun onCommand(artwork: Artwork, id: Int) {
       val context = context ?: return
       when (id) {
-         USER_COMMAND_ID_PHOTO_DESCRIPTION -> {
-            createPhotoDescriptionIntent(context, artwork).apply {
-               addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            }.takeIf { it.resolveActivity(context.packageManager) != null }?.run {
-               context.startActivity(this)
-            }
-         }
          USER_COMMAND_ID_SHARE -> {
             createShareIntent(context, artwork).apply {
                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -62,12 +51,19 @@ class NationalGeographicArtProvider : MuzeiArtProvider() {
       }
    }
 
+   // user clicked on the title/byline/attribution: open a new activity with the image description
+   override fun getArtworkInfo(artwork: Artwork): PendingIntent? {
+      val context = context ?: return null
+      val intent = createPhotoDescriptionIntent(context, artwork)
+      return PendingIntent.getActivity(context, Random.nextInt(), intent, 0)
+   }
+
    private fun createPhotoDescriptionIntent(
            context: Context,
            artwork: Artwork
    ) = Intent(context, PhotoDescriptionActivity::class.java).apply {
       putExtra(PhotoDescriptionActivity.EXTRA_TITLE, artwork. title)
-      putExtra(PhotoDescriptionActivity.EXTRA_DESC, artwork.token)
+      putExtra(PhotoDescriptionActivity.EXTRA_DESC, artwork.metadata)
    }
 
    private fun createShareIntent(
@@ -77,8 +73,8 @@ class NationalGeographicArtProvider : MuzeiArtProvider() {
       type = "text/plain"
       putExtra(Intent.EXTRA_TEXT, context.getString(R.string.share_artwork_message,
               artwork.title,
-              artwork.byline ?: "?",
-              artwork.webUri ?: ""))
+              artwork.attribution ?: "?",
+              artwork.persistentUri ?: ""))
    }, context.getString(R.string.share_artwork_title))
 
    /**
@@ -89,6 +85,7 @@ class NationalGeographicArtProvider : MuzeiArtProvider() {
     * If you wanted the icon to appear as an icon, that line should be removed
     * and a custom icon should be added in place of `R.drawable.muzei_launch_command`.
     */
+   @Suppress("SameParameterValue")
    private fun createRemoteActionCompat(
            context: Context,
            artwork: Artwork,

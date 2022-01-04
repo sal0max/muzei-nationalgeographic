@@ -20,23 +20,23 @@ apply plugin: 'kotlin-android'
 
 dependencies {
    // kotlin
-   implementation 'androidx.core:core-ktx:1.5.0'
+   implementation 'androidx.core:core-ktx:1.7.0'
    // muzei
-   implementation 'com.google.android.apps.muzei:muzei-api:3.4.0'
+   implementation 'com.google.android.apps.muzei:muzei-api:3.4.1'
    // retrofit
    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
-   implementation 'com.squareup.okhttp3:logging-interceptor:4.9.1'
+   implementation 'com.squareup.okhttp3:logging-interceptor:4.9.3'
    // misc
    implementation 'android.arch.work:work-runtime-ktx:1.0.1'
    implementation 'androidx.preference:preference-ktx:1.1.1'
-   implementation 'com.github.sisyphsu:dateparser:1.0.7'
+   implementation 'com.github.sisyphsu:dateparser:1.0.9'
    // test
    testImplementation 'junit:junit:4.13.2'
 }
 
 android {
-   compileSdkVersion 30
+   compileSdkVersion 31
    compileOptions {
       sourceCompatibility JavaVersion.VERSION_1_8
       targetCompatibility JavaVersion.VERSION_1_8
@@ -48,7 +48,7 @@ android {
    defaultConfig {
       applicationId 'de.msal.muzei.nationalgeographic'
       minSdkVersion 21
-      targetSdkVersion 30
+      targetSdkVersion 31
       // SemVer
       versionName = "2.4.0"
       versionCode = 20400

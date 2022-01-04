@@ -1,5 +1,8 @@
 # Changelog
 
+## v2.4.1
+* Updated library dependencies
+
 ## v2.4.0
 * The image description is now available with a click on the artwork title. Removed the not-working link to the website for it.
 * The "Share" intent now doesn't link to the website any more, but directly to the image resource.

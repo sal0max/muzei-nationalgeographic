@@ -76,7 +76,15 @@ class ItemDeserializer : JsonDeserializer<Item> {
    }
 
    private fun String.capitalizeWords(): String {
-         return split(" ").joinToString(" ") { it.toLowerCase(Locale.ROOT).capitalize(Locale.ROOT) }
+      return split(" ").joinToString(" ") { word ->
+         word
+            // 1. lowercase everything
+            .lowercase(Locale.ROOT)
+            // 2. uppercase first char
+            .replaceFirstChar { char ->
+               if (char.isLowerCase()) char.titlecase(Locale.ROOT) else char.toString()
+            }
+      }
    }
 
 }

@@ -55,7 +55,7 @@ class NationalGeographicArtProvider : MuzeiArtProvider() {
    override fun getArtworkInfo(artwork: Artwork): PendingIntent? {
       val context = context ?: return null
       val intent = createPhotoDescriptionIntent(context, artwork)
-      return PendingIntent.getActivity(context, Random.nextInt(), intent, 0)
+      return PendingIntent.getActivity(context, Random.nextInt(), intent, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
    }
 
    private fun createPhotoDescriptionIntent(

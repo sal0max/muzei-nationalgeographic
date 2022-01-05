@@ -1,5 +1,8 @@
 # Changelog
 
+## v2.4.2
+* Fix crash on Android 12
+
 ## v2.4.1
 * Updated library dependencies
 

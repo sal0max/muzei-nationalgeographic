@@ -96,7 +96,7 @@ class NationalGeographicArtProvider : MuzeiArtProvider() {
            context.getString(titleRes),
            context.getString(titleRes),
            PendingIntent.getActivity(context, artwork.id.toInt(),
-                   intentProvider.invoke(context, artwork), 0)).apply {
+                   intentProvider.invoke(context, artwork), PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)).apply {
       setShouldShowIcon(false)
    }
 

@@ -8,13 +8,13 @@
 
 ## About
 
-**The National Geographic photo of the day for [Muzei](http://get.muzei.co/).**  
+**The National Geographic UK photo of the day for [Muzei](http://get.muzei.co/).**  
 This is a plugin for the live wallpaper app _Muzei_ by Roman Nurik. It needs _Muzei_ to be used.
 
 * Toggle between having always the **newest** photo of the day and showing **random** wallpapers.
 * Read the **entire photo description** of the current photo within the app.
 * **Share** your current photo with the world.
-
+* Photos from https://www.nationalgeographic.co.uk/photo-of-day
 
 ## Screenshots
 

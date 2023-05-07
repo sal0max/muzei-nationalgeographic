@@ -1,8 +1,10 @@
 package de.msal.muzei.nationalgeographic.model
 
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 import java.util.*
 
+@Keep
 data class Item(
       @SerializedName("entityLabel") val entityLabel : String?,
       var date : Calendar?,

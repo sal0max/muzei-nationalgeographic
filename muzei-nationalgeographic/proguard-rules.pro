@@ -5,6 +5,9 @@
 -dontwarn okhttp3.**
 -dontwarn okio.**
 -dontwarn retrofit2.**
+-keep class retrofit2.** { *; }
+
+-dontwarn lombok.**
 
 # GSON and R8 don't come along very well
 -keepclassmembers,allowobfuscation class * {

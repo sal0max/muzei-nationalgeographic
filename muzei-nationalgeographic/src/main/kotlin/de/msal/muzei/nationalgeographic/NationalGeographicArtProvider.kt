@@ -18,8 +18,8 @@ class NationalGeographicArtProvider : MuzeiArtProvider() {
    }
 
    override fun onLoadRequested(initial: Boolean) {
-      val isRandom = PreferenceManager.getDefaultSharedPreferences(context).getBoolean(context?.getString(R.string.pref_randomMode_key), true)
-      NationalGeographicWorker.enqueueLoad(isRandom)
+      val isRandom = PreferenceManager.getDefaultSharedPreferences(context!!).getBoolean(context?.getString(R.string.pref_randomMode_key), true)
+      NationalGeographicWorker.enqueueLoad(context!!, isRandom)
    }
 
    /* This is the new API for Muzei 3.4+ that works on all API levels */

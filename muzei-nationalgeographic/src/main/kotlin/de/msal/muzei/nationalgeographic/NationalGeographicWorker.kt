@@ -15,10 +15,10 @@ class NationalGeographicWorker(context: Context, workerParams: WorkerParameters)
    companion object {
       var isRandom = false
 
-      internal fun enqueueLoad(random: Boolean) {
+      internal fun enqueueLoad(context: Context, random: Boolean) {
          this.isRandom = random
          WorkManager
-               .getInstance()
+               .getInstance(context)
                .enqueue(OneTimeWorkRequestBuilder<NationalGeographicWorker>()
                      .setConstraints(Constraints.Builder()
                            .setRequiredNetworkType(NetworkType.CONNECTED)

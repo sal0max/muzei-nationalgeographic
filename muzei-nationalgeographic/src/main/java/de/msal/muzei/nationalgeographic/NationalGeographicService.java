@@ -31,6 +31,7 @@ import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
 import retrofit2.http.Path;
 
 class NationalGeographicService {
@@ -60,9 +61,11 @@ class NationalGeographicService {
 
    interface Service {
 
+      @Headers({"Referer: " + API_URL + "/photo-of-day"})
       @GET("/page-data/photo-of-day/page-data.json")
       Call<Feed> getPhotoOfTheDayFeed();
 
+      @Headers({"Referer: " + API_URL + "/photo-of-day"})
       @GET("/page-data/photo-of-the-day/{year}/{month}/page-data.json")
       Call<Feed> getPhotoOfTheDayFeed(
             @Path("year") int year,

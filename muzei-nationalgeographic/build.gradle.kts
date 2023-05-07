@@ -38,8 +38,8 @@ android {
       minSdk = 21
       targetSdk = 33
       // SemVer
-      versionName = "2.4.3"
-      versionCode = 20403
+      versionName = "2.4.4"
+      versionCode = 20404
       archivesName.set("$applicationId-v$versionCode")
       //
       // vectorDrawables.useSupportLibrary = true

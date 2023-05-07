@@ -62,7 +62,7 @@ android {
 
    signingConfigs {
       create("release") {
-         if (getSecret("KEYSTORE_FILE") != null) {
+         if (getSecret("STORE_FILE") != null) {
             storeFile = File(getSecret("STORE_FILE")!!)
             storePassword = getSecret("STORE_PASSWORD")
             keyAlias = getSecret("KEY_ALIAS")

@@ -19,6 +19,10 @@ package de.msal.muzei.nationalgeographic;
 
 import com.google.gson.GsonBuilder;
 
+import java.io.IOException;
+import java.util.Calendar;
+import java.util.List;
+
 import de.msal.muzei.nationalgeographic.model.Feed;
 import de.msal.muzei.nationalgeographic.model.Item;
 import okhttp3.OkHttpClient;
@@ -28,10 +32,6 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
-
-import java.io.IOException;
-import java.util.Calendar;
-import java.util.List;
 
 class NationalGeographicService {
 

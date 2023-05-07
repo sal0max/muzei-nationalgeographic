@@ -45,6 +45,10 @@ android {
       // vectorDrawables.useSupportLibrary = true
    }
 
+   buildFeatures {
+      buildConfig = true
+   }
+
    fun getSecret(key: String): String? {
       val secretsFile: File = rootProject.file("keystore/signing.properties")
       return if (secretsFile.exists()) {

@@ -92,7 +92,7 @@ class NationalGeographicArtProvider : MuzeiArtProvider() {
            intentProvider: (context: Context, artwork: Artwork) -> Intent,
            @StringRes titleRes: Int
    ) = RemoteActionCompat(
-           IconCompat.createWithResource(context, R.drawable.muzei_launch_command),
+           IconCompat.createWithResource(context, com.google.android.apps.muzei.api.R.drawable.muzei_launch_command),
            context.getString(titleRes),
            context.getString(titleRes),
            PendingIntent.getActivity(context, artwork.id.toInt(),

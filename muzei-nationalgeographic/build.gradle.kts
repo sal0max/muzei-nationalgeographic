@@ -11,32 +11,32 @@ plugins {
 
 dependencies {
    // kotlin
-   implementation("androidx.core:core-ktx:1.10.0")
+   implementation("androidx.core:core-ktx:1.12.0")
    // muzei
    implementation("com.google.android.apps.muzei:muzei-api:3.4.1")
    // retrofit
    implementation("com.squareup.retrofit2:retrofit:2.9.0")
    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-   implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
+   implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
    // misc
-   implementation("androidx.work:work-runtime-ktx:2.8.1")
-   implementation("androidx.preference:preference-ktx:1.2.0")
+   implementation("androidx.work:work-runtime-ktx:2.9.0")
+   implementation("androidx.preference:preference-ktx:1.2.1")
    implementation("com.github.sisyphsu:dateparser:1.0.11")
    // de-sugaring
-   coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.3")
+   coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
    // test
    testImplementation("junit:junit:4.13.2")
 }
 
 android {
    namespace = "de.msal.muzei.nationalgeographic"
-   compileSdk = 33
+   compileSdk = 34
    buildToolsVersion = "33.0.1"
 
    defaultConfig {
       applicationId = "de.msal.muzei.nationalgeographic"
       minSdk = 21
-      targetSdk = 33
+      targetSdk = 34
       // SemVer
       versionName = "2.4.4"
       versionCode = 20404

@@ -1,2 +1,2 @@
-* Use Material theme as base
-* Also should fix the problem of too dark text.
+- Use Material theme as base
+- Also should fix the problem of too dark text.

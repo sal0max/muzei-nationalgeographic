@@ -1,1 +1,1 @@
-• Fix: new images should load again
+Fix: new images should load again

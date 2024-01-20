@@ -1,1 +1,1 @@
-* Now you can see the image description within the app.
+Now you can see the image description within the app.

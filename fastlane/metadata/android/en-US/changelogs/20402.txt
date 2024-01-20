@@ -1,1 +1,1 @@
-• Fix crash on Android 12
+Fix crash on Android 12

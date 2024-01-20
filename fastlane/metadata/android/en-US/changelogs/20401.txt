@@ -1,1 +1,1 @@
-• Updated library dependencies
+Updated library dependencies

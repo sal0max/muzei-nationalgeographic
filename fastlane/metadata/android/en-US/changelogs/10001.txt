@@ -1,1 +1,1 @@
-* Better handling of website misbehavior, where the newest photo of the day couldn't be loaded.
+Better handling of website misbehavior, where the newest photo of the day couldn't be loaded.

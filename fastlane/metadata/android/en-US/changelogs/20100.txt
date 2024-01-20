@@ -1,1 +1,1 @@
-* Uses new Muzei-API 2 :)
+Uses new Muzei-API 2 :)

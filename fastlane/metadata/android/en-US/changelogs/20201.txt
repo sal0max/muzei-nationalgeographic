@@ -1,2 +1,2 @@
-* Fixes "about this photo" and "share" not working on Android 10+
-* Minor improvements
+- Fixes "about this photo" and "share" not working on Android 10+
+- Minor improvements

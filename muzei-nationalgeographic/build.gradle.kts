@@ -31,7 +31,6 @@ dependencies {
 android {
    namespace = "de.msal.muzei.nationalgeographic"
    compileSdk = 34
-   buildToolsVersion = "33.0.1"
 
    defaultConfig {
       applicationId = "de.msal.muzei.nationalgeographic"

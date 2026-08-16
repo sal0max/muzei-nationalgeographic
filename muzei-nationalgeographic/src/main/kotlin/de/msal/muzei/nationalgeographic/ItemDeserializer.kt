@@ -77,13 +77,19 @@ class ItemDeserializer : JsonDeserializer<Item> {
 
    private fun String.capitalizeWords(): String {
       return split(" ").joinToString(" ") { word ->
-         word
-            // 1. lowercase everything
-            .lowercase(Locale.ROOT)
-            // 2. uppercase first char
-            .replaceFirstChar { char ->
+         if (word.contains(".")) {
+            // word contains periods (e.g. initials like "H.C.") - preserve case, just capitalize first char
+            word.replaceFirstChar { char ->
                if (char.isLowerCase()) char.titlecase(Locale.ROOT) else char.toString()
             }
+         } else {
+            // normal word - lowercase then capitalize first char
+            word
+               .lowercase(Locale.ROOT)
+               .replaceFirstChar { char ->
+                  if (char.isLowerCase()) char.titlecase(Locale.ROOT) else char.toString()
+               }
+         }
       }
    }
 
